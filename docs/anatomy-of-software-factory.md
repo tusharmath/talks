@@ -209,7 +209,7 @@ class: diagram
 
 .text-center[
 
-### .icon[arrow-right] Bottlenecks
+### .icon[arrow-down] Bottlenecks
 
 ]
 
@@ -223,7 +223,7 @@ class: diagram
 
 .text-center[
 
-### .icon[arrow-right] Coordination
+### .icon[arrow-up] Coordination
 
 ]
 
@@ -237,7 +237,7 @@ class: diagram
 
 .text-center[
 
-### .icon[arrow-right] Beats Outsourcing
+### .icon[arrow-up] Beats Outsourcing
 
 ]
 
@@ -251,7 +251,7 @@ class: diagram
 
 .text-center[
 
-### .icon[arrow-right] Signal
+### .icon[arrow-up] Signal
 
 ]
 
@@ -265,7 +265,7 @@ class: diagram
 
 .text-center[
 
-### .icon[arrow-right] Feedback
+### .icon[arrow-up] Feedback
 
 ]
 
@@ -279,7 +279,7 @@ class: diagram
 
 .text-center[
 
-### .icon[arrow-right] Control
+### .icon[arrow-up] Control
 
 ]
 
@@ -330,7 +330,7 @@ class: grid-2 celebrate
 .cell[
 ![ForgeCode](./img/forgecode-logo.svg)
 
-## Start Your .tc-underline[Factory]
+## .tc-underline[Know] More
 
 ### .icon[calendar] Book a Demo
 
