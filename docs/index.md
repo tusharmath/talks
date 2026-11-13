@@ -4,6 +4,7 @@ class: middle deck-list
 
 - [State of the Art of Coding Agents 2026](?deck=soa-coding-agents)
 - [Anatomy of a Software Factory](?deck=anatomy-of-software-factory)
+- [How to Build a Software Factory](?deck=build-software-factory)
 - [Software Factory Visual Proposals](?deck=proposals)
 - Part 2 Bridge Options
     - [A · Diagnose Then Prescribe](?deck=bridge-a)
