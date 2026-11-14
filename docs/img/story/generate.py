@@ -710,9 +710,11 @@ def build_agent():
         ext = [("webhook", "hooks"), ("shield", "permissions"), ("file-text", "AGENTS.md"), ("book-open", "skills")]
         cols = [ORANGE, CYAN, YELLOW, LIME]
         world = world_static(i)
-        for n, (ic, lab) in enumerate(ext):
+        for n in range(len(ext)):  # wires first, so they run behind the boxes
             x = x0 + 80 + n * 140
             world += draw_line(x0 - 60, 140, x, 140, 1.0 + n * 0.2, WIRE, 2)
+        for n, (ic, lab) in enumerate(ext):
+            x = x0 + 80 + n * 140
             world += pop(node(ic, lab, 56, cols[n], stroke=cols[n]), x, 140, 1.2 + n * 0.2)
             world += pop(node("users", None, 28, cols[n]), x, 60, 2.2 + n * 0.15)
             world += draw_line(x, 74, x, 112, 2.3 + n * 0.15, cols[n], 1.5)

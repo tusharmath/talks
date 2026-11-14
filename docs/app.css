@@ -827,9 +827,18 @@ h3 {
    every slide, so the scene does not jump when the number of reveals changes. */
 .remark-slide-content.diagram.story > p:has(> img) {
   flex: none;
-  height: 205px;
-  margin-bottom: 0.2em;
+  height: 260px;
+  margin-top: 1.2em;
+  margin-bottom: 1.2em;
 }
 .remark-slide-content.diagram.story > .text-center h3 {
   padding: 0.15em 0;
+}
+/* Story titles start with an arrow icon but may be long: let them wrap, with
+   the second line aligned under the text rather than the arrow. */
+.remark-slide-content.story > h2:has(> .icon:first-child) {
+  white-space: normal;
+  text-wrap: balance;
+  padding-left: 1.3em;
+  text-indent: -1.3em;
 }

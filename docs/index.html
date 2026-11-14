@@ -260,7 +260,7 @@
         h1.dataset.text = text;
         h1.classList.remove("shattering");
         h1.innerHTML = "";
-        text.split("").forEach(function (ch, i) {
+        Array.from(text).forEach(function (ch, i) {
           var s = document.createElement("span");
           s.className = "shard";
           s.textContent = ch;
@@ -291,6 +291,10 @@
               playing[k].replaceWith(placeholder);
               img.replaceWith(playing[k]);
             }
+          });
+          // Keep a running confetti burst on screen across build steps.
+          contents[lastIndex].querySelectorAll(".celebrate-overlay").forEach(function (el) {
+            contents[index].appendChild(el);
           });
           lastIndex = index;
           return;

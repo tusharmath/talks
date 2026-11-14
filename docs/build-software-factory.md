@@ -18,17 +18,15 @@ So you want to build a software .tc-underline[factory]?
 
 class: diagram, story
 
-## You call an .tc-underline[LLM]
+## .icon[arrow-right] You call an LLM
 
 ![a prompt going into an LLM and code coming out as text, with nowhere to put it](./img/story/a01.svg)
 
 <!-- Generates code -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Cannot write files]
+### .icon[circle-alert] Cannot write files
 
 ]
 
@@ -36,15 +34,13 @@ class: diagram, story
 
 class: diagram, story
 
-## So you give the LLM a .tc-underline[write] tool
+## .icon[arrow-right] So you give the LLM a write tool
 
 ![prompt → LLM → tool call → result → LLM, looping](./img/story/a02.svg)
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Sends broken JSON]
+### .icon[circle-alert] Sends broken JSON
 
 ]
 
@@ -52,15 +48,13 @@ class: diagram, story
 
 class: diagram, story
 
-## So you .tc-underline[repair] the JSON
+## .icon[arrow-right] So you repair the JSON
 
 ![malformed JSON and a wrong schema go into a repair step and come out valid](./img/story/a03.svg)
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Rewrites the whole file to change one line]
+### .icon[circle-alert] Rewrites the whole file to change one line
 
 ]
 
@@ -68,15 +62,13 @@ class: diagram, story
 
 class: diagram, story
 
-## So you give the agent an .tc-underline[edit] tool
+## .icon[arrow-right] So you give the agent an edit tool
 
 ![a 2,000 line rewrite shrinking to a one line find-and-replace diff](./img/story/a04.svg)
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Cannot run the code]
+### .icon[circle-alert] Cannot run the code
 
 ]
 
@@ -84,15 +76,13 @@ class: diagram, story
 
 class: diagram, story
 
-## So you give the agent a .tc-underline[shell]
+## .icon[arrow-right] So you give the agent a shell
 
 ![the agent doing everything through one terminal: cat, grep, curl, git](./img/story/a05.svg)
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Cats a 10,000 line file]
+### .icon[circle-alert] Cats a 10,000 line file
 
 ]
 
@@ -100,17 +90,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add more .tc-underline[tools]
+## .icon[arrow-right] So you add more tools
 
 ![a tool list growing: read, search, RAG over the codebase, fetch, git, browser, crowding the prompt](./img/story/a06.svg)
 
 <!-- Read, search, RAG, fetch, git, browser -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Every service wants a dedicated tool]
+### .icon[circle-alert] Every service wants a dedicated tool
 
 ]
 
@@ -118,17 +106,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add .tc-underline[MCP]
+## .icon[arrow-right] So you add MCP
 
 ![GitHub, Slack, Jira, Postgres, Sentry plugging in over MCP, each dumping a pile of tools into the prompt](./img/story/a07.svg)
 
 <!-- Another 100 tools -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Their schemas eat the context]
+### .icon[circle-alert] Their schemas eat the context
 
 ]
 
@@ -136,15 +122,13 @@ class: diagram, story
 
 class: diagram, story
 
-## So you load tools .tc-underline[dynamically]
+## .icon[arrow-right] So you load tools dynamically
 
 ![a registry where only the tools for this task are loaded into the prompt](./img/story/a08.svg)
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Does not know which tools exist]
+### .icon[circle-alert] Does not know which tools exist
 
 ]
 
@@ -152,17 +136,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add a tool to .tc-underline[search] tools
+## .icon[arrow-right] So you add a tool to search tools
 
 ![the agent queries the registry and gets back the few tools that match](./img/story/a09.svg)
 
 <!-- Can call any tool -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] One tool returns 50,000 lines and fills the context]
+### .icon[circle-alert] One tool returns 50,000 lines and fills the context
 
 ]
 
@@ -170,17 +152,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you .tc-underline[cap] tool output
+## .icon[arrow-right] So you cap tool output
 
 ![a wall of text cut off before it reaches the model, then many turns stacking up until the window is full again](./img/story/a10.svg)
 
 <!-- Runs for an hour -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] The context is full again]
+### .icon[circle-alert] The context is full again
 
 ]
 
@@ -188,17 +168,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you .tc-underline[compact]
+## .icon[arrow-right] So you compact
 
 ![older turns squeezed into a summary, the run continuing for hours](./img/story/a11.svg)
 
 <!-- Runs for hours -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] The provider fails on a normal Tuesday]
+### .icon[circle-alert] The provider fails on a normal Tuesday
 
 ]
 
@@ -206,17 +184,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add .tc-underline[retries], limits and resume
+## .icon[arrow-right] So you add retries, limits and resume
 
 ![request fails, backs off, tries again](./img/story/a12.svg)
 
 <!-- Runs all week -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] A $1,000 bill arrives]
+### .icon[circle-alert] A $1,000 bill arrives
 
 ]
 
@@ -224,17 +200,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add .tc-underline[open-weight] models
+## .icon[arrow-right] So you add open-weight models
 
 ![the same conversation routed to DeepSeek, Qwen and a self-hosted Llama, the cost meter dropping](./img/story/a13.svg)
 
 <!-- Call the wrong tool -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] With made-up arguments]
+### .icon[circle-alert] With made-up arguments
 
 ]
 
@@ -242,18 +216,16 @@ class: diagram, story
 
 class: diagram, story
 
-## So you write .tc-underline[evals]
+## .icon[arrow-right] So you write evals
 
 ![a scoreboard built from real tasks in your own repos, one row per model, columns for right tool, right arguments, tests pass](./img/story/a14.svg)
 
 <!-- Real tasks from your own repos -->
 <!-- Scored on right tool, right arguments, tests pass -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Every model fails differently]
+### .icon[circle-alert] Every model fails differently
 
 ]
 
@@ -261,17 +233,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you .tc-underline[tune] for each model
+## .icon[arrow-right] So you tune for each model
 
 ![one agent core with a per-model layer of prompts and tool descriptions](./img/story/a15.svg)
 
 <!-- Prompts and tool descriptions per model -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] A fix for one model breaks another]
+### .icon[circle-alert] A fix for one model breaks another
 
 ]
 
@@ -279,17 +249,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you run the evals on every .tc-underline[change]
+## .icon[arrow-right] So you run the evals on every change
 
 ![every prompt, tool description and model version change running the full eval suite before it lands](./img/story/a16.svg)
 
 <!-- Prompt, tool description, model version -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Passes the evals, still takes all day on a big task]
+### .icon[circle-alert] Passes the evals, still takes all day on a big task
 
 ]
 
@@ -297,18 +265,16 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add .tc-underline[sub-agents]
+## .icon[arrow-right] So you add sub-agents
 
 ![one long queue of steps split into pieces handed to hundreds of agents in a background lane while the main agent keeps chatting with you](./img/story/a17.svg)
 
 <!-- Spawn 400 in the background -->
 <!-- You keep talking while they work -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Every team wants the agent to work their way]
+### .icon[circle-alert] Every team wants the agent to work their way
 
 ]
 
@@ -316,26 +282,23 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add hooks, permissions, AGENTS.md and .tc-underline[skills]
+## .icon[arrow-right] So you add hooks, permissions, AGENTS.md and skills
 
 ![four extension points around the agent core: hooks firing around tool calls, a permission gate, an AGENTS.md of project rules, a shelf of skills](./img/story/a18.svg)
 
 <!-- Rules set per team -->
 
-
 ---
 
-class: middle, shatter
+class: middle, shatter, celebrate
 
-# Congratulations
+# 🎉 Congratulations
 
 --
 
 ### You have built an .tc-underline[agent]
 
---
-
-### .font-grey[.icon[circle-alert] Now build a Software Factory]
+### .icon[circle-alert] Now build a Software Factory
 
 ---
 
@@ -347,17 +310,15 @@ class: middle
 
 class: diagram, story
 
-## So you .tc-underline[schedule] agents
+## .icon[arrow-right] So you schedule agents
 
 ![schedules waking the agent on your laptop: a nightly dependency bump, a weekly cleanup](./img/story/f01.svg)
 
 <!-- You close the laptop -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] The nightly run never happens]
+### .icon[circle-alert] The nightly run never happens
 
 ]
 
@@ -365,17 +326,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you run the agent in the .tc-underline[cloud]
+## .icon[arrow-right] So you run the agent in the cloud
 
 ![the agent moving from the laptop to a machine in the cloud, the nightly run firing on time with the lid closed](./img/story/f02.svg)
 
 <!-- Always on -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] You can only reach the agent over SSH]
+### .icon[circle-alert] You can only reach the agent over SSH
 
 ]
 
@@ -383,17 +342,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you move the .tc-underline[control plane] out
+## .icon[arrow-right] So you move the control plane out
 
 ![the UI, sessions and steering pulled out of the agent process into a control plane with an API](./img/story/f03.svg)
 
 <!-- Any screen can drive the agent, even your phone -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Only responds when someone types]
+### .icon[circle-alert] Only responds when someone types
 
 ]
 
@@ -401,17 +358,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add more .tc-underline[triggers]
+## .icon[arrow-right] So you add more triggers
 
 ![Slack messages, support tickets, prod alerts and failed deploys wired straight to the cloud agent](./img/story/f04.svg)
 
 <!-- Slack, support tickets, prod alerts, failed deploys -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] 100 untested PRs opened overnight]
+### .icon[circle-alert] 100 untested PRs opened overnight
 
 ]
 
@@ -419,17 +374,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you set up .tc-underline[verification] agents
+## .icon[arrow-right] So you set up verification agents
 
 ![a second set of agents picking up each PR: running the tests, recording a screen capture, attaching logs and a report as artifacts](./img/story/f05.svg)
 
 <!-- Runs tests and generates artifacts -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Not everything needs a PR]
+### .icon[circle-alert] Not everything needs a PR
 
 ]
 
@@ -437,17 +390,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add a .tc-underline[project board]
+## .icon[arrow-right] So you add a project board
 
 ![events landing on a board as cards, flowing through columns Triage → Spec → Dev → QA → Review](./img/story/f06.svg)
 
 <!-- Triage → Spec → Dev → QA → Review -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] You have to move every card by hand]
+### .icon[circle-alert] You have to move every card by hand
 
 ]
 
@@ -455,18 +406,16 @@ class: diagram, story
 
 class: diagram, story
 
-## So you set up an .tc-underline[agent] to run the board
+## .icon[arrow-right] So you set up an agent to run the board
 
 ![an agent watching the project board and moving cards on its own: a finished spec starts dev, green QA opens review, a failure sends the card back](./img/story/f07.svg)
 
 <!-- Every task moves itself -->
 <!-- The agent crashes mid-run -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] The task is lost]
+### .icon[circle-alert] The task is lost
 
 ]
 
@@ -474,18 +423,16 @@ class: diagram, story
 
 class: diagram, story
 
-## So you make every step .tc-underline[durable]
+## .icon[arrow-right] So you make every step durable
 
 ![each step of each agent checkpointed as it finishes, the hand-offs between agents recorded](./img/story/f08.svg)
 
 <!-- Tasks resume where they stopped -->
 <!-- The cloud machine is replaced -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Schedules and triggers die with the machine]
+### .icon[circle-alert] Schedules and triggers die with the machine
 
 ]
 
@@ -493,7 +440,7 @@ class: diagram, story
 
 class: diagram, story
 
-## So you move the .tc-underline[management plane] out
+## .icon[arrow-right] So you move the management plane out
 
 ![three layers: control plane (UI, sessions, steering), management plane (triggers, schedules, lifecycle, a secrets vault) running as its own service, and cloud machines below as disposable sandboxes receiving short-lived tokens per task](./img/story/f09.svg)
 
@@ -501,11 +448,9 @@ class: diagram, story
 <!-- Sandboxes get short-lived tokens -->
 <!-- Everyone has their own machines -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] All working in silos]
+### .icon[circle-alert] All working in silos
 
 ]
 
@@ -513,17 +458,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you add a shared .tc-underline[knowledge base]
+## .icon[arrow-right] So you add a shared knowledge base
 
 ![every person and agent reading from and writing to one knowledge base, agents merging duplicates and fixing stale pages](./img/story/f10.svg)
 
 <!-- Kept in sync by agents -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Agents now ship faster than you can review]
+### .icon[circle-alert] Agents now ship faster than you can review
 
 ]
 
@@ -531,17 +474,15 @@ class: diagram, story
 
 class: diagram, story
 
-## So you set up .tc-underline[rubrics]
+## .icon[arrow-right] So you set up rubrics
 
 ![a rubric scoring every change](./img/story/f11.svg)
 
 <!-- Agents review against the rubric, humans take the exceptions -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] Every adjustment reprocesses all the data]
+### .icon[circle-alert] Every adjustment reprocesses all the data
 
 ]
 
@@ -549,18 +490,16 @@ class: diagram, story
 
 class: diagram, story
 
-## So you set up .tc-underline[reports]
+## .icon[arrow-right] So you set up reports
 
 ![dashboards kept up to date from history: cost per task, cycle time, rework](./img/story/f12.svg)
 
 <!-- Maintains historical data -->
 <!-- Cost per task, cycle time, rework -->
 
---
-
 .text-center[
 
-### .font-grey[.icon[circle-alert] The rubrics go stale]
+### .icon[circle-alert] The rubrics go stale
 
 ]
 
@@ -568,18 +507,17 @@ class: diagram, story
 
 class: diagram, story
 
-## So you set up .tc-underline[goals]
+## .icon[arrow-right] So you set up goals
 
 ![targets pinned over the reports](./img/story/f13.svg)
 
 <!-- An agent tunes the rubrics and workflows to hit them -->
 
-
 ---
 
-class: middle
+class: middle, celebrate
 
-# Congratulations
+# 🎉 Congratulations
 
 --
 
@@ -589,7 +527,7 @@ class: middle
 
 class: diagram, spaced
 
-## Now .tc-underline[Scale] the Factory
+## .icon[arrow-right] Now Scale the Factory
 
 .two-columns[
 .column[
