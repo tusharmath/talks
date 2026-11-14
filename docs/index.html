@@ -91,8 +91,28 @@
           renderIcons();
           reserveIncrementalSpace();
           prefetchImages();
+          setPageTitle();
         }
       );
+
+      // The tab title comes from the deck itself: the first slide's `#` heading, or
+      // failing that its first block of text (e.g. a `.font-size-4[...]` title).
+      function setPageTitle() {
+        var first = slideContents()[0];
+        if (!first) return;
+        var pick = first.querySelector("h1");
+        if (!pick) {
+          pick = Array.prototype.find.call(first.children, function (c) {
+            return (
+              !c.classList.contains("remark-slide-number") &&
+              !c.classList.contains("incremental-pending") &&
+              c.textContent.trim()
+            );
+          });
+        }
+        var title = pick && pick.textContent.replace(/\s+/g, " ").trim();
+        if (title) document.title = title;
+      }
 
       // Every SVG in the deck (plus the confetti) is downloaded once at load and kept
       // in memory. Restarting an animation needs a new URL per show; a fresh blob: URL
@@ -224,10 +244,41 @@
         box.appendChild(inner);
         host.appendChild(box);
       }
+      // `class: shatter` slides: on the last `--` step, the `#` heading cracks and
+      // its letters fall off the slide. Replays every time that step is shown.
+      function shatterHeading(index) {
+        var slides = slideshow.getSlides();
+        var slide = slideContents()[index];
+        if (!slide || !slide.classList.contains("shatter")) return;
+        var isLastStep = index + 1 >= slides.length || slides[index + 1].properties.continued !== "true";
+        if (!isLastStep) return;
+        var h1 = Array.prototype.find.call(slide.querySelectorAll("h1"), function (h) {
+          return !h.closest(".incremental-pending");
+        });
+        if (!h1) return;
+        var text = h1.dataset.text || h1.textContent;
+        h1.dataset.text = text;
+        h1.classList.remove("shattering");
+        h1.innerHTML = "";
+        text.split("").forEach(function (ch, i) {
+          var s = document.createElement("span");
+          s.className = "shard";
+          s.textContent = ch;
+          s.style.setProperty("--dx", Math.round((Math.random() - 0.5) * 240) + "px");
+          s.style.setProperty("--lift", Math.round(-10 - Math.random() * 40) + "px");
+          s.style.setProperty("--rot", Math.round((Math.random() - 0.5) * 220) + "deg");
+          s.style.setProperty("--delay", Math.round(1200 + Math.random() * 1400) + "ms");
+          h1.appendChild(s);
+        });
+        void h1.offsetWidth; // restart the animation
+        h1.classList.add("shattering");
+      }
+
       var lastIndex = null;
       slideshow.on("afterShowSlide", function (slide) {
         var index = slide.getSlideIndex();
         showNextPreview(index);
+        shatterHeading(index);
         var contents = slideContents();
         var current = svgImages(contents[index]);
         if (lastIndex !== null && lastIndex !== index && groupOf(lastIndex) === groupOf(index)) {
