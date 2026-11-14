@@ -822,3 +822,14 @@ h3 {
 .remark-slide-content.spaced li:has(> .icon:first-child) {
   margin: 0.9em 0;
 }
+
+/* `class: diagram, story`: the continuous story visuals keep one fixed size on
+   every slide, so the scene does not jump when the number of reveals changes. */
+.remark-slide-content.diagram.story > p:has(> img) {
+  flex: none;
+  height: 205px;
+  margin-bottom: 0.2em;
+}
+.remark-slide-content.diagram.story > .text-center h3 {
+  padding: 0.15em 0;
+}

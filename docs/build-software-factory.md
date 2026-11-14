@@ -1,4 +1,4 @@
-class: center middle
+class: middle
 
 <!--
 Deck notes
@@ -16,19 +16,13 @@ So you want to build a software .tc-underline[factory]?
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## You call an .tc-underline[LLM]
 
-<!-- visual: a prompt going into an LLM and code coming out as text, with nowhere to put it -->
+![a prompt going into an LLM and code coming out as text, with nowhere to put it](./img/story/a01.svg)
 
---
-
-.text-center[
-
-### Generates code
-
-]
+<!-- Generates code -->
 
 --
 
@@ -40,11 +34,11 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you give the LLM a .tc-underline[write] tool
 
-<!-- visual: prompt → LLM → tool call → result → LLM, looping -->
+![prompt → LLM → tool call → result → LLM, looping](./img/story/a02.svg)
 
 --
 
@@ -56,11 +50,11 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you .tc-underline[repair] the JSON
 
-<!-- visual: malformed JSON and a wrong schema go into a repair step and come out valid -->
+![malformed JSON and a wrong schema go into a repair step and come out valid](./img/story/a03.svg)
 
 --
 
@@ -72,11 +66,11 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you give the agent an .tc-underline[edit] tool
 
-<!-- visual: a 2,000 line rewrite shrinking to a one line find-and-replace diff -->
+![a 2,000 line rewrite shrinking to a one line find-and-replace diff](./img/story/a04.svg)
 
 --
 
@@ -88,11 +82,11 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you give the agent a .tc-underline[shell]
 
-<!-- visual: the agent doing everything through one terminal: cat, grep, curl, git -->
+![the agent doing everything through one terminal: cat, grep, curl, git](./img/story/a05.svg)
 
 --
 
@@ -104,19 +98,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add more .tc-underline[tools]
 
-<!-- visual: a tool list growing: read, search, RAG over the codebase, fetch, git, browser, crowding the prompt -->
+![a tool list growing: read, search, RAG over the codebase, fetch, git, browser, crowding the prompt](./img/story/a06.svg)
 
---
-
-.text-center[
-
-### Read, search, RAG, fetch, git, browser
-
-]
+<!-- Read, search, RAG, fetch, git, browser -->
 
 --
 
@@ -128,19 +116,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add .tc-underline[MCP]
 
-<!-- visual: GitHub, Slack, Jira, Postgres, Sentry plugging in over MCP, each dumping a pile of tools into the prompt -->
+![GitHub, Slack, Jira, Postgres, Sentry plugging in over MCP, each dumping a pile of tools into the prompt](./img/story/a07.svg)
 
---
-
-.text-center[
-
-### Another 100 tools
-
-]
+<!-- Another 100 tools -->
 
 --
 
@@ -152,11 +134,11 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you load tools .tc-underline[dynamically]
 
-<!-- visual: a registry where only the tools for this task are loaded into the prompt -->
+![a registry where only the tools for this task are loaded into the prompt](./img/story/a08.svg)
 
 --
 
@@ -168,19 +150,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add a tool to .tc-underline[search] tools
 
-<!-- visual: the agent queries the registry and gets back the few tools that match; then one of those tools returning 50,000 lines that pour into the context window -->
+![the agent queries the registry and gets back the few tools that match](./img/story/a09.svg)
 
---
-
-.text-center[
-
-### Can call any tool
-
-]
+<!-- Can call any tool -->
 
 --
 
@@ -192,19 +168,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you .tc-underline[cap] tool output
 
-<!-- visual: a wall of text cut off before it reaches the model, then many turns stacking up until the window is full again -->
+![a wall of text cut off before it reaches the model, then many turns stacking up until the window is full again](./img/story/a10.svg)
 
---
-
-.text-center[
-
-### Runs for an hour
-
-]
+<!-- Runs for an hour -->
 
 --
 
@@ -216,19 +186,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you .tc-underline[compact]
 
-<!-- visual: older turns squeezed into a summary, the run continuing for hours; then a provider request failing mid-run -->
+![older turns squeezed into a summary, the run continuing for hours](./img/story/a11.svg)
 
---
-
-.text-center[
-
-### Runs for hours
-
-]
+<!-- Runs for hours -->
 
 --
 
@@ -240,19 +204,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add .tc-underline[retries], limits and resume
 
-<!-- visual: request fails, backs off, tries again; a retry counter, timeout and budget meter; state saved outside the process so a stopped run resumes; the cost meter climbing all week -->
+![request fails, backs off, tries again](./img/story/a12.svg)
 
---
-
-.text-center[
-
-### Runs all week
-
-]
+<!-- Runs all week -->
 
 --
 
@@ -264,19 +222,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add .tc-underline[open-weight] models
 
-<!-- visual: the same conversation routed to DeepSeek, Qwen and a self-hosted Llama, the cost meter dropping; then their tool calls going wrong: the wrong tool picked, arguments that match no schema -->
+![the same conversation routed to DeepSeek, Qwen and a self-hosted Llama, the cost meter dropping](./img/story/a13.svg)
 
---
-
-.text-center[
-
-### Call the wrong tool
-
-]
+<!-- Call the wrong tool -->
 
 --
 
@@ -288,27 +240,14 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you write .tc-underline[evals]
 
-<!-- visual: a scoreboard built from real tasks in your own repos, one row per model, columns for right tool, right arguments, tests pass; every row red in a different column -->
+![a scoreboard built from real tasks in your own repos, one row per model, columns for right tool, right arguments, tests pass](./img/story/a14.svg)
 
---
-
-.text-center[
-
-### Real tasks from your own repos
-
-]
-
---
-
-.text-center[
-
-### Scored on right tool, right arguments, tests pass
-
-]
+<!-- Real tasks from your own repos -->
+<!-- Scored on right tool, right arguments, tests pass -->
 
 --
 
@@ -320,19 +259,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you .tc-underline[tune] for each model
 
-<!-- visual: one agent core with a per-model layer of prompts and tool descriptions; one row on the scoreboard turning green while another turns red -->
+![one agent core with a per-model layer of prompts and tool descriptions](./img/story/a15.svg)
 
---
-
-.text-center[
-
-### Prompts and tool descriptions per model
-
-]
+<!-- Prompts and tool descriptions per model -->
 
 --
 
@@ -344,19 +277,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you run the evals on every .tc-underline[change]
 
-<!-- visual: every prompt, tool description and model version change running the full eval suite before it lands; all green, next to a single big task still grinding through its steps one at a time -->
+![every prompt, tool description and model version change running the full eval suite before it lands](./img/story/a16.svg)
 
---
-
-.text-center[
-
-### Prompt, tool description, model version
-
-]
+<!-- Prompt, tool description, model version -->
 
 --
 
@@ -368,27 +295,14 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add .tc-underline[sub-agents]
 
-<!-- visual: one long queue of steps split into pieces handed to hundreds of agents in a background lane while the main agent keeps chatting with you; then several teams each pulling the agent toward their own conventions -->
+![one long queue of steps split into pieces handed to hundreds of agents in a background lane while the main agent keeps chatting with you](./img/story/a17.svg)
 
---
-
-.text-center[
-
-### Spawn 400 in the background
-
-]
-
---
-
-.text-center[
-
-### You keep talking while they work
-
-]
+<!-- Spawn 400 in the background -->
+<!-- You keep talking while they work -->
 
 --
 
@@ -400,23 +314,18 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add hooks, permissions, AGENTS.md and .tc-underline[skills]
 
-<!-- visual: four extension points around the agent core: hooks firing around tool calls, a permission gate, an AGENTS.md of project rules, a shelf of skills; each team plugging in its own -->
+![four extension points around the agent core: hooks firing around tool calls, a permission gate, an AGENTS.md of project rules, a shelf of skills](./img/story/a18.svg)
 
---
+<!-- Rules set per team -->
 
-.text-center[
-
-### Rules set per team
-
-]
 
 ---
 
-class: center middle, shatter
+class: middle, shatter
 
 # Congratulations
 
@@ -436,19 +345,13 @@ class: middle
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you .tc-underline[schedule] agents
 
-<!-- visual: schedules waking the agent on your laptop: a nightly dependency bump, a weekly cleanup; then the lid closing and the nightly run silently skipped -->
+![schedules waking the agent on your laptop: a nightly dependency bump, a weekly cleanup](./img/story/f01.svg)
 
---
-
-.text-center[
-
-### You close the laptop
-
-]
+<!-- You close the laptop -->
 
 --
 
@@ -460,19 +363,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you run the agent in the .tc-underline[cloud]
 
-<!-- visual: the agent moving from the laptop to a machine in the cloud, the nightly run firing on time with the lid closed; then you, away from your desk, with no way in except an SSH session -->
+![the agent moving from the laptop to a machine in the cloud, the nightly run firing on time with the lid closed](./img/story/f02.svg)
 
---
-
-.text-center[
-
-### Always on
-
-]
+<!-- Always on -->
 
 --
 
@@ -484,19 +381,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you move the .tc-underline[control plane] out
 
-<!-- visual: the UI, sessions and steering pulled out of the agent process into a control plane with an API; terminal, web and phone connect to it as separate clients; the agent idle until someone types -->
+![the UI, sessions and steering pulled out of the agent process into a control plane with an API](./img/story/f03.svg)
 
---
-
-.text-center[
-
-### Any screen can drive the agent, even your phone
-
-]
+<!-- Any screen can drive the agent, even your phone -->
 
 --
 
@@ -508,19 +399,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add more .tc-underline[triggers]
 
-<!-- visual: Slack messages, support tickets, prod alerts and failed deploys wired straight to the cloud agent; every event going straight to a pull request with nothing run against it, the PR counter reaching 100 by morning -->
+![Slack messages, support tickets, prod alerts and failed deploys wired straight to the cloud agent](./img/story/f04.svg)
 
---
-
-.text-center[
-
-### Slack, support tickets, prod alerts, failed deploys
-
-]
+<!-- Slack, support tickets, prod alerts, failed deploys -->
 
 --
 
@@ -532,19 +417,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you set up .tc-underline[verification] agents
 
-<!-- visual: a second set of agents picking up each PR: running the tests, recording a screen capture, attaching logs and a report as artifacts; then a support question that only needed an answer sitting in the queue as a PR -->
+![a second set of agents picking up each PR: running the tests, recording a screen capture, attaching logs and a report as artifacts](./img/story/f05.svg)
 
---
-
-.text-center[
-
-### Runs tests and generates artifacts
-
-]
+<!-- Runs tests and generates artifacts -->
 
 --
 
@@ -556,19 +435,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add a .tc-underline[project board]
 
-<!-- visual: events landing on a board as cards, flowing through columns Triage → Spec → Dev → QA → Review; you dragging every card from one column to the next by hand while the inbox keeps growing -->
+![events landing on a board as cards, flowing through columns Triage → Spec → Dev → QA → Review](./img/story/f06.svg)
 
---
-
-.text-center[
-
-### Triage → Spec → Dev → QA → Review
-
-]
+<!-- Triage → Spec → Dev → QA → Review -->
 
 --
 
@@ -580,27 +453,14 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you set up an .tc-underline[agent] to run the board
 
-<!-- visual: an agent watching the project board and moving cards on its own: a finished spec starts dev, green QA opens review, a failure sends the card back; then the agent process crashing mid-run and the card it was working on going blank -->
+![an agent watching the project board and moving cards on its own: a finished spec starts dev, green QA opens review, a failure sends the card back](./img/story/f07.svg)
 
---
-
-.text-center[
-
-### Every task moves itself
-
-]
-
---
-
-.text-center[
-
-### The agent crashes mid-run
-
-]
+<!-- Every task moves itself -->
+<!-- The agent crashes mid-run -->
 
 --
 
@@ -612,27 +472,14 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you make every step .tc-underline[durable]
 
-<!-- visual: each step of each agent checkpointed as it finishes, the hand-offs between agents recorded; the agent restarts and resumes the task from its last finished step; then the cloud machine being replaced and the schedules and triggers living on it vanishing with it -->
+![each step of each agent checkpointed as it finishes, the hand-offs between agents recorded](./img/story/f08.svg)
 
---
-
-.text-center[
-
-### Tasks resume where they stopped
-
-]
-
---
-
-.text-center[
-
-### The machine is replaced
-
-]
+<!-- Tasks resume where they stopped -->
+<!-- The cloud machine is replaced -->
 
 --
 
@@ -644,35 +491,15 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you move the .tc-underline[management plane] out
 
-<!-- visual: three layers: control plane (UI, sessions, steering), management plane (triggers, schedules, lifecycle, a secrets vault) running as its own service, and cloud machines below as disposable sandboxes receiving short-lived tokens per task; then every person with their own set of machines, walled off from each other -->
+![three layers: control plane (UI, sessions, steering), management plane (triggers, schedules, lifecycle, a secrets vault) running as its own service, and cloud machines below as disposable sandboxes receiving short-lived tokens per task](./img/story/f09.svg)
 
---
-
-.text-center[
-
-### Secrets move to a vault
-
-]
-
---
-
-.text-center[
-
-### Sandboxes get short-lived tokens
-
-]
-
---
-
-.text-center[
-
-### Everyone has their own machines
-
-]
+<!-- Secrets move to a vault -->
+<!-- Sandboxes get short-lived tokens -->
+<!-- Everyone has their own machines -->
 
 --
 
@@ -684,19 +511,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you add a shared .tc-underline[knowledge base]
 
-<!-- visual: every person and agent reading from and writing to one knowledge base, agents merging duplicates and fixing stale pages; work speeding up until the review column overflows -->
+![every person and agent reading from and writing to one knowledge base, agents merging duplicates and fixing stale pages](./img/story/f10.svg)
 
---
-
-.text-center[
-
-### Kept in sync by agents
-
-]
+<!-- Kept in sync by agents -->
 
 --
 
@@ -708,19 +529,13 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you set up .tc-underline[rubrics]
 
-<!-- visual: a rubric scoring every change; agents review against it and pass most work, humans see only the exceptions; then one rubric tweak sending the whole history of work back through for re-scoring -->
+![a rubric scoring every change](./img/story/f11.svg)
 
---
-
-.text-center[
-
-### Agents review against the rubric, humans take the exceptions
-
-]
+<!-- Agents review against the rubric, humans take the exceptions -->
 
 --
 
@@ -732,27 +547,14 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you set up .tc-underline[reports]
 
-<!-- visual: dashboards kept up to date from history: cost per task, cycle time, rework; the numbers drifting while the rubrics stay the same -->
+![dashboards kept up to date from history: cost per task, cycle time, rework](./img/story/f12.svg)
 
---
-
-.text-center[
-
-### Maintains historical data
-
-]
-
---
-
-.text-center[
-
-### Cost per task, cycle time, rework
-
-]
+<!-- Maintains historical data -->
+<!-- Cost per task, cycle time, rework -->
 
 --
 
@@ -764,23 +566,18 @@ class: diagram
 
 ---
 
-class: diagram
+class: diagram, story
 
 ## So you set up .tc-underline[goals]
 
-<!-- visual: targets pinned over the reports; an agent reading the reports, changing a rubric or a workflow, measuring against the goals and keeping what helped -->
+![targets pinned over the reports](./img/story/f13.svg)
 
---
+<!-- An agent tunes the rubrics and workflows to hit them -->
 
-.text-center[
-
-### An agent tunes the rubrics and workflows to hit them
-
-]
 
 ---
 
-class: center middle
+class: middle
 
 # Congratulations
 
