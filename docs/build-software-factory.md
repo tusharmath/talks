@@ -426,17 +426,13 @@ class: center middle, shatter
 
 --
 
-### .font-grey[.icon[circle-alert] Only works when you ask]
+### .font-grey[.icon[circle-alert] Now build a Software Factory]
 
 ---
 
-class: center middle
+class: middle
 
-# Now build the .tc-underline[factory]
-
---
-
-### Things should work autonomously
+# Make it .tc-underline[autonomous]
 
 ---
 
@@ -796,22 +792,22 @@ class: center middle
 
 class: diagram, spaced
 
-## Now .tc-underline[scale] the factory
+## Now .tc-underline[Scale] the Factory
 
 .two-columns[
 .column[
 
-- .icon[users] Many teams, one factory
-- .icon[gauge] Capacity and cost
-- .icon[eye] Review becomes the limit
-- .icon[shield-alert] Production safety
+- .icon[users] Many Teams, One Factory
+- .icon[gauge] Capacity and Cost
+- .icon[eye] Review Becomes the Limit
+- .icon[shield-alert] Production Safety
 
 ]
 .column[
 
-- .icon[lock] Security and compliance
-- .icon[book-open] Keeping knowledge true
-- .icon[package] The factory as a product
+- .icon[lock] Security and Compliance
+- .icon[book-open] Keeping Knowledge True
+- .icon[package] The Factory as a Product
 
 ]
 ]
@@ -819,35 +815,42 @@ class: diagram, spaced
 ???
 
 1. Many teams, one factory
+
 - Conflicting goals: one team wants speed, another stability; needs a goal hierarchy, company goals above team goals
 - Shared vs local: what is shared across the org (knowledge, rubrics, workflows) and what each team can override
 - Cross-team work: a task touching three repos owned by three teams needs one owner and one board
 
 2. Capacity and cost
+
 - Budgets: per team, per project, per task; the factory stops work that is not worth the spend
 - Scheduling: thousands of agents compete for sandboxes, rate limits and CI runners; queues, priorities, fairness
 - Model routing: cheap work to cheap models, hard work to frontier models; the evals make that safe
 
 3. Review becomes the limit
+
 - Human attention is the scarce resource: output grows with compute, review grows with headcount
 - Risk-based review: sort changes by blast radius; low-risk ships on agent verification, humans see the risky ones
 - Trust is earned per area: track revert rates per part of the codebase, widen autonomy where the record is good
 
 4. Production safety
+
 - Blast radius: one bad rubric change affects every team; roll factory changes out gradually, with canaries and rollbacks
 - Accountability: someone is on call when the factory ships a bad fix; every change has a named human owner
 - Audit trail: which trigger, which agent, which rubric version, who approved
 
 5. Security and compliance
+
 - Permissions per team and per task: an agent working on billing cannot read HR data
 - Untrusted input at scale: every ticket and alert is text an attacker can write
 - Regulated work: some changes legally need a human sign-off; the workflow has to know which
 
 6. Keeping knowledge true
+
 - Drift: 10,000 conversations a day write to the knowledge base; it goes stale faster than agents can clean it
 - Ownership: every page needs an owner and an expiry, or the factory learns from its own old mistakes
 
 7. The factory as a product
+
 - It needs its own team: uptime, upgrades and a roadmap for the factory itself
 - Model upgrades: a new model version shifts every rubric score and eval; treat it as a migration
 - Measuring the factory: from tasks completed to business outcomes (idea-to-production cycle time, defects reaching customers)

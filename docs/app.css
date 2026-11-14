@@ -818,6 +818,7 @@ h3 {
 }
 
 /* `class: spaced`: more room between list items, e.g. a short closing list. */
-.spaced li {
+.remark-slide-content.spaced li,
+.remark-slide-content.spaced li:has(> .icon:first-child) {
   margin: 0.9em 0;
 }
