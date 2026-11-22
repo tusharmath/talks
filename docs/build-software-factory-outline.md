@@ -18,79 +18,71 @@ Pieces to cover not in the story any more: Control Plane, Management Plane, Cred
 
 > You call an LLM (Generates code) _Cannot write files_
 
-<!-- Review 4/4 Strong start, the problem is the obvious first limit -->
+<!-- Suggest: So you call an LLM (Generates code) _Cannot write files_ (starts the 'So you' rhythm, echoes the title) -->
 
 > So you give the LLM a write tool _Sends broken JSON_
 
-<!-- Review 4/4 Directly fixes the previous problem, and broken JSON is a real side effect of tool calls -->
+<!-- Suggest: So you give the LLM a write tool (Whole file as one JSON string) _Sends broken JSON_ (says why it breaks) -->
 
 > So you repair the JSON _Rewrites the whole file to change one line_
 
-<!-- Review 3/4 Good fix, but 'rewrites the whole file' comes from the write tool, not from JSON repair -->
+<!-- Suggest: So you repair the JSON (Writes land now) _Still resends a 2,000-line file to change one line_ -->
 
 > So you give the agent an edit tool _Cannot run the code_
 
-<!-- Review 4/4 Direct fix -->
+<!-- Suggest: So you give the agent an edit tool (Search and replace) _Breaks the build and never finds out_ -->
 
 > So you give the agent a shell _Cats a 10,000 line file_
 
-<!-- Review 4/4 Direct fix, and catting a huge file is a believable result of having a shell -->
+<!-- Suggest: So you give the agent a shell (Runs, reads the error, tries again: the agent loop) _Cats a 10,000-line file_ (names the agent loop so Act 3 can move it out) -->
 
 > So you add more tools (Read, search, RAG, fetch, git, browser) _Every service wants a dedicated tool_
 
-<!-- Review 3/4 Read and search fix the cat problem; RAG, fetch, git and browser go beyond it -->
+<!-- Suggest: So you add more tools (Ranged read and grep, then fetch, git, browser) _Every service needs a hand-written tool_ (drop RAG) -->
 
 > So you add MCP (Another 100 tools) _Their schemas eat the context_
 
-<!-- Review 4/4 Direct fix, and the problem is a direct result -->
+<!-- Suggest: So you add MCP (Another 100 tools) _Tool schemas eat the context_ -->
 
 > So you load tools dynamically _Does not know which tools exist_
 
-<!-- Review 4/4 Direct fix, and the problem is a direct result -->
-
 > So you add a tool to search tools (Can call any tool) _One tool returns 50,000 lines and fills the context_
-
-<!-- Review 4/4 Direct fix, and the problem is a direct result -->
 
 > So you cap tool output (Runs for an hour) _The context is full again_
 
-<!-- Review 4/4 Direct fix; 'runs for an hour' shows progress before the next wall -->
-
 > So you compact (Runs for hours) _The provider fails on a normal Tuesday_
-
-<!-- Review 4/4 Direct fix, and the escalating run time works well -->
 
 > So you add retries, limits and resume (Runs all week) _A $1,000 bill arrives_
 
-<!-- Review 4/4 Direct fix; the $1,000 bill is a natural result of running all week -->
+<!-- Suggest: So you add retries, fallbacks and resume (Runs all week) _A $1,000 bill arrives_ ('limits' reads as spend limits) -->
 
 > So you add open-weight models (Call the wrong tool) _With made-up arguments_
 
-<!-- Review 3/4 Clear motive from cost, but the problem reads as a continuation of the note ('Call the wrong tool... with made-up arguments'); state it in one line -->
+<!-- Suggest: So you add open-weight models (A fraction of the cost) _Sometimes calls the wrong tool with made-up arguments_ -->
 
 > So you write evals (Real tasks from your own repos; Scored on right tool, right arguments, tests pass) _Every model fails differently_
 
-<!-- Review 3/4 Evals measure the problem rather than fix it; works as 'first you measure' -->
+<!-- Suggest: So you write evals (Real tasks from your repos; Right tool, right arguments, tests pass) _Every model fails differently_ -->
 
 > So you tune for each model (Prompts and tool descriptions per model) _A fix for one model breaks another_
 
-<!-- Review 4/4 Direct fix -->
+<!-- Suggest: So you tune for each model (Per-model prompts on a shared harness) _A fix for one model breaks another_ -->
 
 > So you run the evals on every change (Prompt, tool description, model version) _Passes the evals, still takes all day on a big task_
 
-<!-- Review 4/4 Direct fix; the problem shifts from quality to speed cleanly -->
+<!-- Suggest: So you run the evals on every change (Prompt, tool description, model version) _Correct, but a big task crawls one step at a time_ -->
 
 > So you add sub-agents (Spawn 400 in the background; You keep talking while they work) _Every team wants the agent to work their way_
 
-<!-- Review 3/4 Direct fix, but 'Every team wants the agent to work their way' does not come from sub-agents; it is a new topic -->
+<!-- Suggest: So you add sub-agents (A dozen in the background; You keep talking while they work) _Now every team wants it, each their own way_ (400 moves to sandbox per task) -->
 
 > So you add support for hooks, permissions, AGENTS.md and skills (Every team sets its own rules)
 
-<!-- Review 4/4 Direct fix -->
+<!-- Suggest: So you add hooks, permissions, AGENTS.md and skills (Every team sets its own rules) -->
 
 > Congratulations (You have built an agent) _Outcomes aren't reliable_
 
-<!-- Review 4/4 Clean act break; 'Outcomes aren't reliable' sets up the AI SDLC act -->
+<!-- Suggest: Congratulations (You have built an agent) _Works only for whoever is driving it_ ('Outcomes aren't reliable' clashes with 'Passes the evals') -->
 
 ## AI SDLC
 
@@ -107,72 +99,76 @@ Pieces to cover not in the story any more: Control Plane, Management Plane, Cred
 - [x] Artifacts
 - [x] Rubrics
 - [x] Cost
+- [ ] Self Improving -> Skills
+- [ ] Accountability
 - [x] Credentials
 
 ### Story
 
 > Now build the factory (Ship with quality consistently) _Every agent starts from zero_
 
-<!-- Review 3/4 Answers 'Outcomes aren't reliable' and now sets up the knowledge base; the act is AI SDLC, so 'build the factory' is still early -->
+<!-- Suggest: So you roll it out to every team (Ship with quality, every time) _What one agent learns, the next one never sees_ ('starts from zero' contradicts AGENTS.md; 'factory' is Act 3's name) -->
 
 > So you add a shared knowledge base (Agents keep it in sync; Every agent now has enough context to act) _Every request becomes a PR on GitHub_
 
-<!-- Review 4/4 Direct fix for 'Every agent starts from zero'; the PR flood follows from agents now having enough context to act -->
+<!-- Suggest: So you add a shared knowledge base (Agents keep it in sync; Every agent has enough context to act) _Every request goes straight to a PR, with no triage or spec_ -->
 
 > So you integrate a project board (Triage → Spec → Dev → QA → Review; Not everything needs a PR) _You have to move every card by hand_
 
-<!-- Review 4/4 Direct fix, and moving cards by hand is a direct result -->
-
 > So you set up an agent to run the board (Every card moves itself; Verification agents run QA and attach artifacts) _Agents now ship faster than you can review_
 
-<!-- Review 4/4 Direct fix; review load is a direct result of cards moving on their own -->
+<!-- Suggest: So you hand the board to an agent (Every card moves itself; Verification agents run QA and attach artifacts) _Agents open PRs faster than you can review_. For the FIXME (signal self-improvement instead of review): _The same mistakes come back every week_, then rubrics + skills as the way the factory learns -->
+
+<!-- FIXME: Too much of focus on review - should signal self improvement -->
 
 > So you set up rubrics (Agents review against the rubric, humans take the exceptions) _You cannot tell if the rubrics are working_
 
-<!-- Review 4/4 Direct fix for review load; sets up reports -->
+<!-- Suggest: So you write rubrics (Agents review against the rubric, humans take the exceptions) _You cannot tell if the rubrics work_ -->
 
 > So you set up reports (Cost per task, cycle time, rework; Kept over time) _Someone has to read them and tune the rubrics_
 
-<!-- Review 4/4 Direct fix; the numbers create work for a human, which sets up goals -->
+<!-- Suggest: So you add reports (Cost per task, cycle time, rework; Kept over time) _Someone has to read them and tune the rubrics_ -->
 
 > So you set up goals (An agent tunes the rubrics and workflows to hit them) _Goals are only checked when you ask_
 
-<!-- Review 4/4 Direct fix, but its problem is the same as the Congratulations line below; keep one -->
+<!-- Suggest: So you set goals (An agent tunes rubrics, workflows and skills to hit them; Rework is the guardrail) with no problem line, so Congratulations carries it (avoids gaming the metric and the duplicate problem) -->
 
 > Congratulations (You have setup an AI SDLC) _Works only when you ask_
 
-<!-- Review 3/4 Clean act break, but repeats the goals problem. Typo: 'setup' to 'set up' -->
+<!-- Suggest: Congratulations (You have set up an AI SDLC) _Works only when you ask_ -->
 
 ## Factory
 
 > So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys; Each trigger starts its own agent from zero) _It all stops when you close the laptop_
 
-<!-- Review 4/4 Direct fix for 'Works only when you ask', and the laptop is a direct result of schedules. The note 'Each trigger starts its own agent from zero' is left over from the silos version; drop it or move it to the knowledge base opener -->
+<!-- Suggest: So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys) _It all stops when you close the laptop_ (drop 'starts its own agent from zero', it contradicts the knowledge base) -->
 
 > So you run the agent in the cloud machine (Always on) _You can only reach the agent over SSH_
 
-<!-- Review 4/4 Direct fix, and SSH-only access is a believable result. Wording: 'a cloud machine' -->
+<!-- Suggest: So you run the agent on a cloud machine (Always on; Your keys live on it now) _You can only reach it over SSH_ -->
 
-> So you make the agent headless (Any screen can drive the agent, even your phone; Tasks now run for days) _Can't connect when its is under load_
+> So you make the agent headless (Any screen can drive the agent, even your phone; Tasks now run for days) _Can't connect when its is under load/offline_
 
-<!-- Review 3/4 Direct fix for SSH; the load problem is plausible but say why (long tasks, builds and many users on one machine). Typo: 'its is' to 'it is' -->
+<!-- Suggest: So you make the agent headless (Anyone can drive it from any screen, even a phone) _A heavy build freezes the agent and nobody can connect_ (the cause has to be work starving the loop, or the next fix would be more machines) -->
 
 > So you move the agent loop out (Sandboxes only run the work) _Sandbox keeps crashing_
 
-<!-- Review 3/4 Fixes load by keeping the loop off the busy machine; 'Sandbox keeps crashing' needs a cause (heavy work, out of memory) -->
+<!-- Suggest: So you move the agent loop to a control plane (The machine becomes a sandbox that only runs the work) _Sandboxes are disposable, and so is their work_ (introduces 'sandbox' and the control plane) -->
 
 > So you make the sandbox state durable (A crashed sandbox comes back where it stopped) _Everyone queues for the same sandbox_
 
-<!-- Review 3/4 Direct fix for crashes; once crashes stop being the limit, the single shared sandbox becomes the bottleneck, though durability does not cause it -->
+<!-- Suggest: So you make the sandbox state durable (Files survive a crash; The loop retries the step) _Every trigger and agent queues for the same sandbox_ -->
 
-> So you dynamically creates sandboxes to scale workloads _Each sandbox has the same size and privileges_
+> So you dynamically creates sandboxes for each task _Each sandbox has the same size and privileges_
 
-<!-- Review 4/4 Direct fix, and same size and privileges is a direct result of stamping them out. Grammar: 'create' -->
+<!-- Suggest: So you spin up a sandbox per task (400 at once; Scale to zero when idle) _A typo fix gets the same 64 GB box and prod keys as a migration_. For the FIXME (reuse): keep warm sandboxes per repo so a task skips clone and install -->
+
+<!-- FIXME: Use case for sandbox reuse -->
 
 > So you create a group of sandboxes _Groups control resource type_
 
-<!-- Review 3/4 Direct fix, but 'Groups control resource type' is a benefit, not a problem; move it into the note. Ending without a problem is fine since Congratulations follows -->
+<!-- Suggest: So you create sandbox groups (Each sets machine size, network access and short-lived credentials), with no problem line (covers Credentials and the Management Plane) -->
 
 > Congratulations (You have built a simple software factory) _Now scale the factory_
 
-<!-- Review 4/4 Clean close that sets up scaling -->
+<!-- Suggest: Congratulations (You have built a simple software factory) _Still want to build one?_ -->
