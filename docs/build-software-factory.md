@@ -448,9 +448,11 @@ class: middle, celebrate
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you add more triggers
+
+![schedule, Slack, support tickets, prod alerts and failed deploys all triggering the agent on your laptop; at 3 a.m. an alert ships a fix signed off as you](./img/story/x01.svg)
 
 <!-- Schedule, Slack, support tickets, prod alerts, failed deploys -->
 
@@ -462,9 +464,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you give agents their own identity
+
+![commits, PRs and deploys stamped with the agent's name and its owner; the agent still lives on the laptop, the lid closes and the 3 a.m. alert waits](./img/story/x02.svg)
 
 <!-- Commits, PRs and deploys name the agent and its owner -->
 
@@ -493,9 +497,11 @@ class: diagram, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you make the agent headless
+
+![a laptop, a phone, Slack and support tickets all driving the agent on the cloud machine; one ticket says ignore your instructions and the agent sends its keys outside](./img/story/x03.svg)
 
 <!-- Anyone can drive it from any screen, even a phone -->
 <!-- So can any support ticket -->
@@ -508,9 +514,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you move the agent loop to a control plane
+
+![the agent loop and its keys move up into a control plane while the sandbox below only runs the work, with tool calls going over a message bus; a result is dropped, the call is retried and git push reaches the remote twice](./img/story/x04.svg)
 
 <!-- Keys stay with the loop, never on the sandbox -->
 <!-- The machine only runs the work, so a heavy build cannot freeze the agent -->
@@ -524,9 +532,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you make every call durable
+
+![each call carries an ID and a replay gets the saved result from the call log instead of running again; then the loop crashes and finished results pile up on the bus](./img/story/x05.svg)
 
 <!-- Each call has an ID -->
 <!-- Replays return the saved result -->
@@ -539,9 +549,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you make the loop durable
+
+![loop state saved every step and a new loop resuming from the last save; when the heartbeat stops the sandbox shuts down; then 40 loops run for days and queue for the one sandbox](./img/story/x06.svg)
 
 <!-- State saved every step -->
 <!-- If the heartbeat stops, the sandbox shuts down -->
@@ -554,9 +566,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you spin up a sandbox per task
+
+![a grid of sandboxes scaling from zero to 400 and back to zero, each cloning and installing from scratch; a typo fix and a migration both get a 64 GB box with prod keys](./img/story/x07.svg)
 
 <!-- 400 at once -->
 <!-- Scale to zero when idle -->
@@ -570,9 +584,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you create sandbox groups
+
+![sandbox groups for docs, backend and migrations, each with its own machine size, network access, expiring keys and a warm pool; prod breaks and the commit shows only the agent and owner, not why](./img/story/x08.svg)
 
 <!-- Each sets machine size, network access and short-lived credentials -->
 <!-- Warm pools per repo skip clone and install -->
@@ -585,9 +601,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you trace every change
+
+![a commit opening up into its trigger, model, skill, rubric and approver; an agent drafts the post-mortem and the owner picks fix forward](./img/story/x09.svg)
 
 <!-- Trigger, model, skill, rubric and approver on every commit -->
 <!-- Agents draft the post-mortem and the owner decides -->
