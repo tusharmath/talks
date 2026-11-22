@@ -9,6 +9,31 @@
     />
     <link rel="stylesheet" href="./app.css" />
     <script>
+      // Theme: "dark" (default) or "light". ?theme=light|dark in the URL wins and
+      // is remembered; otherwise the last choice from localStorage. Set on <html>
+      // here, before the body renders, so the page never flashes the other theme.
+      var THEMES = ["dark", "light"];
+      var THEME_KEY = "slides-theme";
+      function storedTheme() {
+        try {
+          return localStorage.getItem(THEME_KEY);
+        } catch (e) {
+          return null;
+        }
+      }
+      function saveTheme(theme) {
+        try {
+          localStorage.setItem(THEME_KEY, theme);
+        } catch (e) {}
+      }
+      (function () {
+        var param = new URLSearchParams(location.search).get("theme");
+        if (THEMES.indexOf(param) >= 0) saveTheme(param);
+        var theme = THEMES.indexOf(param) >= 0 ? param : storedTheme();
+        document.documentElement.dataset.theme = THEMES.indexOf(theme) >= 0 ? theme : "dark";
+      })();
+    </script>
+    <script>
       // Google Analytics script
       (function (i, s, o, g, r, a, m) {
         i["GoogleAnalyticsObject"] = r;
@@ -53,11 +78,70 @@
         footer: "number",
         // Size of the next-slide preview, as a fraction of the slide.
         previewScale: 0.08,
+        // Colour theme when nothing is chosen yet: "dark" or "light". Switch
+        // with the `d` key or the corner button; ?theme=light|dark in the URL
+        // overrides it. The choice is remembered in localStorage.
+        theme: "dark",
       };
+      var THEME_KEY_BINDING = "d"; // remark already uses b c f h j k m p t ?
+      if (!storedTheme() && !new URLSearchParams(location.search).get("theme")) {
+        document.documentElement.dataset.theme = CONFIG.theme;
+      }
       var FOOTERS = ["none", "number", "preview"];
       var footerParam = new URLSearchParams(location.search).get("footer");
       var footer = FOOTERS.indexOf(footerParam) >= 0 ? footerParam : CONFIG.footer;
       document.body.dataset.footer = footer;
+
+      // Theme toggle: the key above, or a faint sun/moon button in the bottom-right
+      // corner of the window that only shows up fully on hover.
+      function currentTheme() {
+        return document.documentElement.dataset.theme === "light" ? "light" : "dark";
+      }
+      // Code blocks use the matching highlight.js palette for the theme.
+      function syncCodeTheme() {
+        var light = currentTheme() === "light";
+        document.querySelectorAll(".hljs-tomorrow-night, .hljs-tomorrow").forEach(function (el) {
+          el.classList.toggle("hljs-tomorrow-night", !light);
+          el.classList.toggle("hljs-tomorrow", light);
+        });
+      }
+      function setTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        saveTheme(theme);
+        syncCodeTheme();
+      }
+      function toggleTheme() {
+        setTheme(currentTheme() === "light" ? "dark" : "light");
+      }
+      var themeButton = document.createElement("button");
+      themeButton.className = "theme-toggle";
+      themeButton.type = "button";
+      themeButton.title = "Toggle light/dark theme (" + THEME_KEY_BINDING + ")";
+      themeButton.setAttribute("aria-label", "Toggle light/dark theme");
+      themeButton.innerHTML =
+        '<i data-lucide="sun" class="theme-icon-sun"></i><i data-lucide="moon" class="theme-icon-moon"></i>';
+      document.body.appendChild(themeButton);
+      // Delegated: remark re-creates the body's content inside .remark-container,
+      // so a listener on the button itself would be lost.
+      document.addEventListener("click", function (e) {
+        var button = e.target.closest && e.target.closest(".theme-toggle");
+        if (!button) return;
+        toggleTheme();
+        button.blur();
+      });
+      lucide.createIcons();
+      document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+        if (e.key === THEME_KEY_BINDING) toggleTheme();
+      });
+      // Keep cloned windows (remark's `c`) on the same theme.
+      window.addEventListener("storage", function (e) {
+        if (e.key === THEME_KEY && THEMES.indexOf(e.newValue) >= 0 && e.newValue !== currentTheme()) {
+          document.documentElement.dataset.theme = e.newValue;
+          syncCodeTheme();
+        }
+      });
 
       // Pick the deck from ?deck=<name> → ./<name>.md (defaults to index.md, the deck list).
       var deck = new URLSearchParams(location.search).get("deck") || "index";
@@ -89,6 +173,7 @@
         },
         function () {
           renderIcons();
+          syncCodeTheme();
           reserveIncrementalSpace();
           prefetchImages();
           setPageTitle();

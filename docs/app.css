@@ -6,6 +6,30 @@
   --grid-line-spacing: 4px;
   --grid-line-width: calc(var(--grid-line-spacing) / 2);
   --grid-overlay: rgba(0, 0, 0, 0.4);
+  /* Theme colours. Dark is the default; light overrides them below. */
+  --slide-bg: #000;
+  --slide-fg: #fff;
+  --slide-muted: #bbb;
+  --slide-glow: #ffffff11;
+  --sq-minor-color: #121212;
+  --sq-major-color: #333333;
+  --surface: #1c1d1f;
+  --preview-border: rgba(255, 255, 255, 0.3);
+}
+
+/* Light theme: html[data-theme="light"], set by index.html (toggle with `d`,
+   the corner button, or ?theme=light). The accent stays orange. */
+html[data-theme="light"] {
+  --grid-line-color: rgba(0, 0, 0, 0.05);
+  --grid-overlay: rgba(255, 255, 255, 0.4);
+  --slide-bg: #fafafa;
+  --slide-fg: #111;
+  --slide-muted: #5c5c5c;
+  --slide-glow: #0000000a;
+  --sq-minor-color: #efefef;
+  --sq-major-color: #d6d6d6;
+  --surface: #ececec;
+  --preview-border: rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -35,19 +59,19 @@ body {
 html,
 body,
 .remark-container {
-  background-color: #000;
+  background-color: var(--slide-bg);
 }
 .remark-slide-scaler {
   box-shadow: none !important;
 }
 
 .remark-slide-content {
-  background-color: #000;
+  background-color: var(--slide-bg);
   font-size: 2rem;
   /* Grid: the forge-desktop .grid-background texture (dark theme). */
   background-image: radial-gradient(
       circle at 100% 10%,
-      #ffffff11 10%,
+      var(--slide-glow) 10%,
       #0000 60%
     ),
     linear-gradient(var(--grid-overlay), var(--grid-overlay)),
@@ -60,7 +84,7 @@ body,
       var(--grid-line-color) var(--grid-line-spacing)
     );
   height: 100%;
-  color: #fff;
+  color: var(--slide-fg);
 
   td,
   th {
@@ -78,14 +102,12 @@ body,
 [data-deck^="ending-"] .remark-slide-content {
   --sq-minor: calc(100% / 160) calc(100% / 90);
   --sq-major: calc(100% / 32) calc(100% / 18);
-  /* Solid colors (no alpha): contrast against the #000 slide is set by
-     how light each gray is. */
-  --sq-minor-color: #121212;
-  --sq-major-color: #333333;
+  /* Solid colors (no alpha): contrast against the slide is set by how far
+     each gray is from the background (--sq-*-color, per theme, in :root). */
   --sq-line: 0.5px;
   background-image: radial-gradient(
       circle at 100% 10%,
-      #ffffff11 10%,
+      var(--slide-glow) 10%,
       #0000 60%
     ),
     linear-gradient(var(--sq-major-color) var(--sq-line), transparent var(--sq-line)),
@@ -117,6 +139,11 @@ body,
   opacity: 0.35;
   pointer-events: none;
 }
+/* The wordmark is white: turn it black on the light theme. */
+html[data-theme="light"] .remark-slide-content::after {
+  filter: invert(1);
+  opacity: 0.45;
+}
 
 /* Bottom right: chosen by CONFIG.footer in index.html (or ?footer=…), set as
    body[data-footer]: "none", "number" (remark's slide number) or "preview"
@@ -135,7 +162,7 @@ body:not([data-footer="number"]) .remark-slide-number {
   right: 3%;
   bottom: 3%;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--preview-border);
   border-radius: 3px;
   opacity: 0.55;
   pointer-events: none;
@@ -203,7 +230,7 @@ body:not([data-footer="number"]) .remark-slide-number {
 }
 
 .font-grey {
-  color: #bbb;
+  color: var(--slide-muted);
 }
 
 .italics {
@@ -252,7 +279,7 @@ body:not([data-footer="number"]) .remark-slide-number {
 }
 
 .stat-item {
-  background-color: #1c1d1f;
+  background-color: var(--surface);
   padding: 0.2em 0.5em;
   border-radius: 0;
   font-size: 1.5em;
@@ -368,7 +395,7 @@ img {
 }
 
 .invert img {
-  filter: brightness(0) invert(1); /* Make the logo white */
+  filter: brightness(0) invert(1); /* Make the logo white (black on light) */
 }
 
 .icon img {
@@ -841,4 +868,70 @@ h3 {
   text-wrap: balance;
   padding-left: 1.3em;
   text-indent: -1.3em;
+}
+
+/* ---- Light theme: diagrams and the theme toggle ---- */
+
+/* Diagrams in img/ are drawn for a dark slide (light text, near-black fills).
+   On the light theme they are inverted and hue-rotated back, so light-on-dark
+   becomes dark-on-light while orange/cyan/red/lime keep roughly their hue.
+   The SVG files are untouched. Animated SVGs are swapped to blob: URLs by
+   index.html, with the original path kept in data-src, so match on both.
+   Not inverted: PNG/GIF photos and screenshots, the QR codes, brand-coloured
+   logos and the confetti overlay. White single-colour marks (ForgeCode,
+   GitHub, X) are inverted too, which simply turns them black. */
+/* :where() keeps the specificity low, so `.invert img` below still wins. */
+html[data-theme="light"] .remark-slide-content img:where([src*=".svg"], [data-src*=".svg"]):where(:not(
+    .celebrate-overlay,
+    [src*="-qr"], [data-src*="-qr"],
+    [src*="claude-logo"], [data-src*="claude-logo"],
+    [src*="codex-logo"], [data-src*="codex-logo"],
+    [src*="dream11-mark"], [data-src*="dream11-mark"]
+  )) {
+  filter: invert(1) hue-rotate(180deg);
+}
+/* `.invert` logos are recoloured to black instead. */
+html[data-theme="light"] .remark-slide-content .invert img {
+  filter: brightness(0);
+}
+
+/* Theme toggle (index.html): a small sun/moon in the bottom-right corner of the
+   window, below the slide number, nearly invisible until hovered. */
+.theme-toggle {
+  position: fixed;
+  right: 6px;
+  bottom: 6px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--slide-fg);
+  opacity: 0.08;
+  cursor: pointer;
+  transition: opacity 0.15s, color 0.15s;
+}
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  opacity: 0.9;
+  color: var(--tc-accent);
+}
+.theme-toggle svg {
+  width: 14px;
+  height: 14px;
+}
+/* Show the theme you would switch to. */
+html[data-theme="light"] .theme-toggle .theme-icon-sun,
+html:not([data-theme="light"]) .theme-toggle .theme-icon-moon {
+  display: none;
+}
+@media print {
+  .theme-toggle {
+    display: none;
+  }
 }
