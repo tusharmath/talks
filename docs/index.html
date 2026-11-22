@@ -82,6 +82,14 @@
         // with the `d` key or the corner button; ?theme=light|dark in the URL
         // overrides it. The choice is remembered in localStorage.
         theme: "dark",
+        // Animation when moving to another slide:
+        //   "fade"   quick fade in with a slight upward drift (default)
+        //   "slide"  quick fade in from the side, in the direction of travel
+        //   "none"   instant cut
+        // `--` build steps never re-animate the slide; only the newly revealed
+        // part fades in. Off for prefers-reduced-motion and in print.
+        // Override per visit with ?transition=fade|slide|none in the URL.
+        transition: "fade",
       };
       var THEME_KEY_BINDING = "d"; // remark already uses b c f h j k m p t ?
       if (!storedTheme() && !new URLSearchParams(location.search).get("theme")) {
@@ -91,6 +99,10 @@
       var footerParam = new URLSearchParams(location.search).get("footer");
       var footer = FOOTERS.indexOf(footerParam) >= 0 ? footerParam : CONFIG.footer;
       document.body.dataset.footer = footer;
+      var TRANSITIONS = ["none", "fade", "slide"];
+      var transitionParam = new URLSearchParams(location.search).get("transition");
+      var transition = TRANSITIONS.indexOf(transitionParam) >= 0 ? transitionParam : CONFIG.transition;
+      document.body.dataset.transition = transition;
 
       // Theme toggle: the key above, or a faint sun/moon button in the bottom-right
       // corner of the window that only shows up fully on hover.
@@ -359,9 +371,59 @@
         h1.classList.add("shattering");
       }
 
+      // Slide transitions: a CSS animation (app.css) started by a class on the
+      // shown slide's container. Only one slide ever carries it, so jumping several
+      // slides at once never queues animations. Runs alongside, never before, the
+      // image restarts below.
+      var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      function clearTransition(el) {
+        el.classList.remove("slide-enter", "slide-enter-back", "reveal-enter");
+      }
+      document.addEventListener("animationend", function (e) {
+        if (/^(slide|reveal)-enter/.test(e.animationName)) clearTransition(e.target);
+      });
+      function animateTransition(fromIndex, toIndex) {
+        document.querySelectorAll(".slide-enter, .reveal-enter").forEach(clearTransition);
+        if (transition === "none" || reducedMotion.matches || fromIndex === null || fromIndex === toIndex) return;
+        var contents = slideContents();
+        var to = contents[toIndex];
+        if (!to) return;
+        var restart = function (el, cls) {
+          void el.offsetWidth;
+          el.classList.add(cls);
+          // Fallback when animationend never fires (e.g. a skipped frame).
+          setTimeout(function () {
+            el.classList.remove(cls);
+          }, 600);
+        };
+        if (groupOf(fromIndex) !== groupOf(toIndex)) {
+          // A real slide change: animate the whole slide.
+          var container = to.closest(".remark-slide-container");
+          restart(container, "slide-enter");
+          if (toIndex < fromIndex) container.classList.add("slide-enter-back");
+          return;
+        }
+        // A `--` step forward: fade in only the blocks this step reveals (they
+        // were reserved as .incremental-pending ghosts on the previous step).
+        if (toIndex !== fromIndex + 1) return;
+        var blocks = function (el) {
+          return Array.prototype.filter.call(el.children, function (c) {
+            return !c.classList.contains("remark-slide-number") && !c.classList.contains("slide-preview") &&
+              !c.classList.contains("celebrate-overlay");
+          });
+        };
+        var before = blocks(contents[fromIndex]);
+        blocks(to).forEach(function (b, k) {
+          if (before[k] && before[k].classList.contains("incremental-pending") && !b.classList.contains("incremental-pending")) {
+            restart(b, "reveal-enter");
+          }
+        });
+      }
+
       var lastIndex = null;
       slideshow.on("afterShowSlide", function (slide) {
         var index = slide.getSlideIndex();
+        animateTransition(lastIndex, index);
         showNextPreview(index);
         shatterHeading(index);
         var contents = slideContents();

@@ -945,3 +945,50 @@ html:not([data-theme="light"]) .theme-toggle .theme-icon-moon {
     display: none;
   }
 }
+
+/* Slide transitions (index.html, CONFIG.transition / ?transition=): the shown
+   slide's container gets .slide-enter on a real slide change; a `--` step only
+   fades in its newly revealed blocks (.reveal-enter). Enter-only and short, so
+   the previous slide cuts away and presenting never waits on an animation. The
+   letterbox behind the container is the slide colour, so a fade never flashes
+   the other theme. */
+body[data-transition="fade"] .remark-slide-container.slide-enter {
+  animation: slide-enter-fade 260ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+}
+body[data-transition="slide"] .remark-slide-container.slide-enter {
+  animation: slide-enter-side 280ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+}
+body[data-transition="slide"] .remark-slide-container.slide-enter.slide-enter-back {
+  animation-name: slide-enter-side-back;
+}
+body:not([data-transition="none"]) .reveal-enter {
+  animation: reveal-enter 220ms ease-out backwards;
+}
+@keyframes slide-enter-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes slide-enter-side {
+  from { opacity: 0; transform: translateX(28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes slide-enter-side-back {
+  from { opacity: 0; transform: translateX(-28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .remark-slide-container.slide-enter,
+  .reveal-enter {
+    animation: none !important;
+  }
+}
+@media print {
+  .remark-slide-container.slide-enter,
+  .reveal-enter {
+    animation: none !important;
+  }
+}
