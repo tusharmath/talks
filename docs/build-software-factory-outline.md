@@ -61,15 +61,9 @@ Format: `> So you ... (additional info) _problem_`
 
 ### Story
 
-> Now build the factory (Things should work autonomously)
+> Now build the factory (Things should work autonomously) _Only responds when someone types_
 
-> So you schedule agents (You close the laptop) _The nightly run never happens_
-
-> So you run the agent in the cloud (Always on) _You can only reach the agent over SSH_
-
-> So you move the control plane out (Any screen can drive the agent, even your phone) _Only responds when someone types_
-
-> So you add more triggers (Slack, support tickets, prod alerts, failed deploys) _100 untested PRs opened overnight_
+> So you add more triggers (Slack, support tickets, prod alerts, failed deploys) _100 untested PRs opened_
 
 > So you set up verification agents (Runs tests and generates artifacts) _Not everything needs a PR_
 
@@ -83,7 +77,13 @@ Format: `> So you ... (additional info) _problem_`
 
 > So you set up reports (Maintains historical data; Cost per task, cycle time, rework) _The rubrics go stale_
 
-> So you set up goals (An agent tunes the rubrics and workflows to hit them; Runs for days; The agent crashes mid-run) _The task is lost_
+> So you set up goals (An agent tunes the rubrics and workflows to hit them) _It all stops when you close the laptop_
+
+> So you schedule agents (Nightly goal checks, weekly reports) _The nightly run never happens_
+
+> So you run the agent in the cloud (Always on) _You can only reach the agent over SSH_
+
+> So you move the control plane out (Any screen can drive the agent, even your phone; The agent crashes mid-run) _The task is lost_
 
 > So you make every step durable (Tasks resume where they stopped; The machine is replaced) _Schedules and triggers die with the machine_
 
