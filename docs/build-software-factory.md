@@ -316,9 +316,11 @@ class: middle, shatter, celebrate
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you roll it out to every team
+
+![the same agent copied to every team's repo, each one knowing its code while the specs, decisions and incidents stay out of reach](./img/story/s01.svg)
 
 <!-- Ship with quality, consistently -->
 
@@ -330,9 +332,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you add a shared knowledge base
+
+![specs, decisions and incidents flowing into one knowledge base that every agent reads and keeps in sync, then every request, even a question, coming back as a PR](./img/story/s02.svg)
 
 <!-- Specs, decisions, past incidents -->
 <!-- Agents keep it in sync -->
@@ -345,9 +349,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you integrate a project board
+
+![a project board with Triage, Spec, Dev, QA and Review columns, a question closing without a PR, a hand dragging cards while the inbox piles up](./img/story/s03.svg)
 
 <!-- Triage → Spec → Dev → QA → Review -->
 <!-- Not everything needs a PR -->
@@ -360,9 +366,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you set up an agent to run the board
+
+![a board agent moving every card, a verification agent attaching a screen capture, logs and a report in QA, then a card shipping with an empty sign-off](./img/story/s04.svg)
 
 <!-- Every card moves itself -->
 <!-- Verification agents run QA and attach artifacts -->
@@ -375,9 +383,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you give every card an owner
+
+![each card carrying an owner, a risky card waiting in Review for the owner's sign-off, then the owner rejecting the same mistake week after week](./img/story/s05.svg)
 
 <!-- Whoever filed it, or the team that owns the code -->
 <!-- Risky changes need their sign-off -->
@@ -390,9 +400,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you write rubrics
+
+![a rubric checklist, a grader agent scoring every card and sending exceptions to the owner, the same rubric line failing again and again](./img/story/s06.svg)
 
 <!-- What owners check, written down -->
 <!-- Agents grade every task, humans take the exceptions -->
@@ -405,9 +417,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you turn failures into skills
+
+![the repeated failures condensing into a skill that the next dev agent loads, with a question mark over whether it helped](./img/story/s07.svg)
 
 <!-- Agents write a skill from each repeated fix -->
 <!-- The next agent loads it -->
@@ -420,9 +434,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you track reports
+
+![reports of cost, cycle time and rework per task and rework with and without each skill, piling up unread in front of you](./img/story/s08.svg)
 
 <!-- Cost, cycle time and rework per task and per skill -->
 <!-- With and without each skill -->
@@ -435,9 +451,11 @@ class: middle, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you set goals
+
+![goal markers on the report bars, a tuner agent turning the dials for rubrics, skills and workflows until the bars reach them, rework locked](./img/story/s09.svg)
 
 <!-- An agent tunes rubrics, skills and workflows to hit them -->
 <!-- Rework is the one metric it cannot tune -->
