@@ -10,8 +10,8 @@ Format: `> So you ... (additional info) _problem_`
 
 Agent act: average 3.7, tight throughout
 AI SDLC act: average 3.8; goals and Congratulations share a problem
-Factory act: average 3.5; the headless and agent loop problems need a cause
-Pieces to cover not in the story any more: Control Plane, Management Plane, Credentials (secrets vault, short-lived tokens)
+Factory act: reworked from the independent review; open point is the messaging complexity of moving the agent loop out
+Control Plane, Credentials and sandbox reuse are now in the Factory act; Management Plane only through sandbox groups; Accountability not covered yet
 -->
 
 ## Agent
@@ -139,36 +139,22 @@ Pieces to cover not in the story any more: Control Plane, Management Plane, Cred
 
 ## Factory
 
-> So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys; Each trigger starts its own agent from zero) _It all stops when you close the laptop_
+> So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys) _It all stops when you close the laptop_
 
-<!-- Suggest: So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys) _It all stops when you close the laptop_ (drop 'starts its own agent from zero', it contradicts the knowledge base) -->
+> So you run the agent on a cloud machine (Always on; Your keys live on it now) _You can only reach it over SSH_
 
-> So you run the agent in the cloud machine (Always on) _You can only reach the agent over SSH_
+> So you make the agent headless (Anyone can drive it from any screen, even a phone) _A heavy build freezes the agent and nobody can connect_
 
-<!-- Suggest: So you run the agent on a cloud machine (Always on; Your keys live on it now) _You can only reach it over SSH_ -->
+<!-- FIXME: Complexity of the messaging infra required to move the agent loop out is under appreciated here -->
 
-> So you make the agent headless (Any screen can drive the agent, even your phone; Tasks now run for days) _Can't connect when its is under load/offline_
+<!-- Suggest: put the messaging cost on screen in the note and the problem, e.g. (Every tool call is now a message across the network; Streaming output, ordering, reconnects) _A dropped connection leaves a command half run_. Then durability answers both crashes and dropped messages: (Every call has an ID; Replays are safe; Files survive a crash) -->
 
-<!-- Suggest: So you make the agent headless (Anyone can drive it from any screen, even a phone) _A heavy build freezes the agent and nobody can connect_ (the cause has to be work starving the loop, or the next fix would be more machines) -->
+> So you move the agent loop to a control plane (The machine becomes a sandbox that only runs the work) _Sandboxes are disposable, and so is their work_
 
-> So you move the agent loop out (Sandboxes only run the work) _Sandbox keeps crashing_
+> So you make the sandbox state durable (Files survive a crash; The loop retries the step) _Every trigger and agent queues for the same sandbox_
 
-<!-- Suggest: So you move the agent loop to a control plane (The machine becomes a sandbox that only runs the work) _Sandboxes are disposable, and so is their work_ (introduces 'sandbox' and the control plane) -->
+> So you spin up a sandbox per task (400 at once; Scale to zero when idle) _A typo fix gets the same 64 GB box and prod keys as a migration_
 
-> So you make the sandbox state durable (A crashed sandbox comes back where it stopped) _Everyone queues for the same sandbox_
+> So you create sandbox groups (Each sets machine size, network access and short-lived credentials; Warm pools per repo skip clone and install)
 
-<!-- Suggest: So you make the sandbox state durable (Files survive a crash; The loop retries the step) _Every trigger and agent queues for the same sandbox_ -->
-
-> So you dynamically creates sandboxes for each task _Each sandbox has the same size and privileges_
-
-<!-- Suggest: So you spin up a sandbox per task (400 at once; Scale to zero when idle) _A typo fix gets the same 64 GB box and prod keys as a migration_. For the FIXME (reuse): keep warm sandboxes per repo so a task skips clone and install -->
-
-<!-- FIXME: Use case for sandbox reuse -->
-
-> So you create a group of sandboxes _Groups control resource type_
-
-<!-- Suggest: So you create sandbox groups (Each sets machine size, network access and short-lived credentials), with no problem line (covers Credentials and the Management Plane) -->
-
-> Congratulations (You have built a simple software factory) _Now scale the factory_
-
-<!-- Suggest: Congratulations (You have built a simple software factory) _Still want to build one?_ -->
+> Congratulations (You have built a simple software factory) _Still want to build one?_
