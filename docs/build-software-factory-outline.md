@@ -9,7 +9,8 @@ Format: `> So you ... (additional info) _problem_`
 1 No connection
 
 Agent act: average 3.7, tight throughout
-Factory act: average 2.9; the weak spots are the board agent (silos), goals to schedule (the product to infra turn) and the control plane crash
+Factory act: average 2.8; the weak spots are knowledge base to PRs, board to rubrics (no board agent or review load in between), goals to schedule (the product to infra turn) and the control plane crash
+Not covered any more: Verification and Artifacts (both still ticked in Pieces to cover)
 -->
 
 ## Agent
@@ -113,29 +114,21 @@ Factory act: average 2.9; the weak spots are the board agent (silos), goals to s
 
 <!-- Review 3/4 Follows the act break, but its problem repeats 'Only works when you ask'; keep one of the two -->
 
-> So you add more triggers (Slack, support tickets, prod alerts, failed deploys) _100 untested PRs opened_
+> So you add more triggers (Slack, support tickets, prod alerts, failed deploys) _All work happens in silos_
 
-<!-- Review 4/4 Direct fix, and the problem is a direct result -->
+<!-- Review 3/4 Direct fix for 'only responds when someone types'; silos follow loosely (each trigger starts its own agent with its own context), say that to make it land -->
 
-> So you set up verification agents (Runs tests and generates artifacts) _Not everything needs a PR_
+> So you add a shared knowledge base (Agents to keep it in sync) _Every requirement create a PR on Github_
 
-<!-- Review 3/4 Direct fix, but 'Not everything needs a PR' is a new topic, not something verification causes -->
+<!-- Review 2/4 Fixes silos, but 'Every requirement creates a PR' is not caused by a knowledge base; it comes from triggers. Typo: 'create' to 'creates', 'Github' to 'GitHub' -->
 
 > So you add a project board (Triage → Spec → Dev → QA → Review) _You have to move every card by hand_
 
-<!-- Review 3/4 The board handles non-PR work, but the motive is weak; 'work is scattered across PRs, chats and tickets' would lead here harder -->
-
-> So you set up an agent to run the board (Every task moves itself) _All working in silos_
-
-<!-- Review 2/4 The fix is direct, but 'All working in silos' has no clear subject (people or agents?) and does not come from a board agent -->
-
-> So you add a shared knowledge base (Agents to keep it in sync) _Agents now ship faster than you can review_
-
-<!-- Review 3/4 Fixes silos, but 'ship faster than you can review' does not come from the knowledge base -->
+<!-- Review 3/4 The board gives non-PR work a home, so it fixes the previous problem; 'move every card by hand' is a direct result -->
 
 > So you set up rubrics (Agents review against the rubric, humans take the exceptions) _Every adjustment reprocesses all the data_
 
-<!-- Review 3/4 Direct fix for review load, but 'Every adjustment reprocesses all the data' is vague; say what is adjusted and why it is slow -->
+<!-- Review 2/4 Does not fix 'move every card by hand' now that the board agent step is gone; rubrics answer review load, which is no longer set up. Also 'Every adjustment reprocesses all the data' is vague -->
 
 > So you set up reports (Maintains historical data; Cost per task, cycle time, rework) _The rubrics go stale_
 
