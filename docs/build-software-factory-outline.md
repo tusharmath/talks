@@ -69,7 +69,7 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 - [x] Artifacts
 - [x] Rubrics
 - [x] Cost
-- [ ] Self Improving -> Skills
+- [x] Self Improving -> Skills
 - [ ] Accountability
 - [x] Credentials
 
@@ -81,12 +81,6 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 > So you integrate a project board (Triage → Spec → Dev → QA → Review; Not everything needs a PR) _You have to move every card by hand_
 
-> So you set up an agent to run the board (Every card moves itself; Verification agents run QA and attach artifacts) _Agents now ship faster than you can review_
-
-<!-- FIXME: Too much of focus on review - should signal self improvement -->
-
-<!-- Proposal: make the act about the factory learning, with review as one input, not the theme. Rubrics catch mistakes, skills stop them coming back, reports show whether that worked, goals close the loop:
-
 > So you set up an agent to run the board (Every card moves itself; Verification agents run QA and attach artifacts) _Agents repeat the same mistakes_
 
 > So you set up rubrics (Agents grade every task; Humans take the exceptions) _Failures are recorded, nothing learns from them_
@@ -97,15 +91,7 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 > So you set up goals (An agent tunes rubrics, skills and workflows to hit them; Rework is the guardrail)
 
-Covers 'Self Improving -> Skills' from the checklist; Congratulations keeps 'Works only when you ask' -->
-
-> So you set up rubrics (Agents review against the rubric, humans take the exceptions) _You cannot tell if the rubrics are working_
-
-> So you set up reports (Cost per task, cycle time, rework; Kept over time) _Someone has to read them and tune the rubrics_
-
-> So you set up goals (An agent tunes the rubrics and workflows to hit them) _Goals are only checked when you ask_
-
-> Congratulations (You have setup an AI SDLC) _Works only when you ask_
+> Congratulations (You have set up an AI SDLC) _Works only when you ask_
 
 ## Factory
 
