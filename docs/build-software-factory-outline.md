@@ -78,7 +78,8 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 3. An audit trail per change (trigger, agent, model, skill and rubric versions, who approved)
 4. Approval by risk (low-risk ships on agent verification, risky changes need the owner's sign-off)
 5. Agents run the post-mortem (trace the change back, propose a guardrail, the owner decides)
-Three ways to put it in the story below, pick one -->
+Proposal: run it as a thread, one layer per act (owner, identity, trail), +3 steps. Each step is written out where it goes, as 'Thread 1/3' to '3/3'.
+Also: on the 'Now Scale the Factory' slide, swap 'Tracing Every Change' for 'Accountability at Scale' (on-call rotation, sign-off for regulated changes, owners who leave) -->
 - [x] Credentials
 
 ### Story
@@ -91,9 +92,9 @@ Three ways to put it in the story below, pick one -->
 
 > So you set up an agent to run the board (Every card moves itself; Verification agents run QA and attach artifacts) _Agents repeat the same mistakes_
 
-<!-- Proposal A (AI SDLC, one step, owners and approval): replace the board-agent problem with _A card ships and nobody knows who signed it off_, then
+<!-- Thread 1/3, owner (AI SDLC). Change this problem to _A card ships and nobody knows who signed it off_, then add:
 > So you give every card an owner (Whoever filed it, or the team that owns the trigger; Risky changes need their sign-off) _Agents repeat the same mistakes_
-Fits the product act, because ownership is a process problem; keeps the rest of the act unchanged -->
+Rubrics follow unchanged -->
 
 > So you set up rubrics (Agents grade every task; Humans take the exceptions) _Failures are recorded, nothing learns from them_
 
@@ -109,9 +110,9 @@ Fits the product act, because ownership is a process problem; keeps the rest of 
 
 > So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys) _It all stops when you close the laptop_
 
-<!-- Proposal B (Factory, one step, identity and audit): triggers mean work starts with nobody at the keyboard. Change this problem to _A 3 a.m. alert ships a fix under your name_, then
-> So you give agents their own identity (Every commit, PR and deploy names the agent and its owner; Full trail from trigger to deploy) _It all stops when you close the laptop_
-Lands hardest on stage: the audience pictures their name on a change they never saw -->
+<!-- Thread 2/3, identity (Factory). Change this problem to _A 3 a.m. alert ships a fix under your name_, then add:
+> So you give agents their own identity (Commits, PRs and deploys name the agent and its owner) _It all stops when you close the laptop_
+Cloud machine follows unchanged -->
 
 > So you run the agent on a cloud machine (Always on; Your keys live on it now) _You can only reach it over SSH_
 
@@ -127,8 +128,8 @@ Lands hardest on stage: the audience pictures their name on a change they never 
 
 > So you create sandbox groups (Each sets machine size, network access and short-lived credentials; Warm pools per repo skip clone and install)
 
-<!-- Proposal C (Factory close, one step, post-mortems): end the build with the first incident. Give sandbox groups the problem _Prod breaks, and nobody can say which agent did it_, then
-> So you trace every change (Trigger, agent, model, skill and approver on every commit; Agents run the post-mortem, the owner decides)
-Makes accountability the last thing you build before Congratulations, and hands over to 'Tracing Every Change' on the scaling slide -->
+<!-- Thread 3/3, trail (Factory close). Give this step the problem _Prod breaks, and nobody can say why_ (you know which agent now, not which trigger, skill or approval), then add:
+> So you trace every change (Trigger, model, skill, rubric and approver on every commit; Agents run the post-mortem, the owner decides)
+Congratulations follows unchanged -->
 
 > Congratulations (You have built a simple software factory) _Still want to build one?_
