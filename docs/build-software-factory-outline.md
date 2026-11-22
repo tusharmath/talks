@@ -9,7 +9,9 @@ Format: `> So you ... (additional info) _problem_`
 1 No connection
 
 Agent act: average 3.7, tight throughout
-Factory act: average 3.8; product track (triggers to goals), then infra track (schedule to agent loop). Remaining 3s: the PR flood leans on a note, goals mark the turn to infra, and the control plane restart
+AI SDLC act: average 3.5; the opener has no problem line, so the knowledge base has no setup, and goals and Congratulations share a problem
+Factory act: average 3.4; weakest link is durable sandbox state to 'everyone on the same sandbox', and the headless and agent loop problems need a cause
+Pieces to cover not in the story any more: Control Plane, Management Plane, Credentials (secrets vault, short-lived tokens)
 -->
 
 ## Agent
@@ -86,11 +88,11 @@ Factory act: average 3.8; product track (triggers to goals), then infra track (s
 
 <!-- Review 4/4 Direct fix -->
 
-> Congratulations (You have built an agent) _Only works when you ask_
+> Congratulations (You have built an agent) _Outcomes aren't reliable_
 
-<!-- Review 4/4 Clean act break that sets up the factory -->
+<!-- Review 4/4 Clean act break; 'Outcomes aren't reliable' sets up the AI SDLC act -->
 
-## Factory
+## AI SDLC
 
 ### Pieces to cover
 
@@ -109,19 +111,15 @@ Factory act: average 3.8; product track (triggers to goals), then infra track (s
 
 ### Story
 
-> Now build the factory (Things should work without you asking)
+> Now build the factory (Ship with quality consistently)
 
-<!-- Review 4/4 Picks up 'Only works when you ask' from the act break without repeating it -->
-
-> So you add more triggers (Slack, support tickets, prod alerts, failed deploys; Each trigger starts its own agent from zero) _All work happens in silos_
-
-<!-- Review 4/4 Direct fix for 'only works when you ask'; the note says why the silos happen -->
+<!-- Review 3/4 Answers 'Outcomes aren't reliable', but the act is now AI SDLC, so 'build the factory' is early; also no problem line, so nothing sets up the knowledge base. Try 'Now build an AI SDLC' with _Every agent starts from zero_ -->
 
 > So you add a shared knowledge base (Agents keep it in sync; Every agent now has enough context to act) _Every request becomes a PR on GitHub_
 
-<!-- Review 3/4 Fixes silos; the PR flood follows from agents now being able to act on everything, though it leans on the note -->
+<!-- Review 2/4 The silos problem that motivated it moved to the Factory act, so nothing leads here yet; the PR flood still leans on the note -->
 
-> So you add a project board (Triage → Spec → Dev → QA → Review; Not everything needs a PR) _You have to move every card by hand_
+> So you integrate a project board (Triage → Spec → Dev → QA → Review; Not everything needs a PR) _You have to move every card by hand_
 
 <!-- Review 4/4 Direct fix, and moving cards by hand is a direct result -->
 
@@ -131,7 +129,7 @@ Factory act: average 3.8; product track (triggers to goals), then infra track (s
 
 > So you set up rubrics (Agents review against the rubric, humans take the exceptions) _You cannot tell if the rubrics are working_
 
-<!-- Review 4/4 Direct fix for review load; a rubric is only as good as its results, which sets up reports -->
+<!-- Review 4/4 Direct fix for review load; sets up reports -->
 
 > So you set up reports (Cost per task, cycle time, rework; Kept over time) _Someone has to read them and tune the rubrics_
 
@@ -139,31 +137,41 @@ Factory act: average 3.8; product track (triggers to goals), then infra track (s
 
 > So you set up goals (An agent tunes the rubrics and workflows to hit them) _Goals are only checked when you ask_
 
-<!-- Review 3/4 Direct fix; the problem is the product to infra turn and echoes the act break, which helps the audience see the shift -->
+<!-- Review 4/4 Direct fix, but its problem is the same as the Congratulations line below; keep one -->
 
-> So you schedule agents (Nightly goal checks, weekly reports) _It all stops when you close the laptop_
+> Congratulations (You have setup an AI SDLC) _Works only when you ask_
 
-<!-- Review 4/4 Direct fix, and the laptop is the obvious next limit -->
+<!-- Review 3/4 Clean act break, but repeats the goals problem. Typo: 'setup' to 'set up' -->
 
-> So you run the agent in the cloud (Always on) _You can only reach the agent over SSH_
+## Factory
 
-<!-- Review 4/4 Direct fix, and SSH-only access is a believable result -->
+> So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys; Each trigger starts its own agent from zero) _It all stops when you close the laptop_
 
-> So you move the control plane out (Any screen can drive the agent, even your phone; Tasks now run for days) _The machine restarts and the task is lost_
+<!-- Review 4/4 Direct fix for 'Works only when you ask', and the laptop is a direct result of schedules. The note 'Each trigger starts its own agent from zero' is left over from the silos version; drop it or move it to the knowledge base opener -->
 
-<!-- Review 3/4 Direct fix; longer tasks make a restart likely, though the restart itself is not caused by the control plane -->
+> So you run the agent in the cloud machine (Always on) _You can only reach the agent over SSH_
 
-> So you make every step durable (Tasks resume where they stopped) _Schedules and triggers die with the machine_
+<!-- Review 4/4 Direct fix, and SSH-only access is a believable result. Wording: 'a cloud machine' -->
 
-<!-- Review 4/4 Direct fix; tasks survive but what lives on the machine does not -->
+> So you make the agent headless (Any screen can drive the agent, even your phone; Tasks now run for days) _Can't connect when its is under load_
 
-> So you move the management plane out (Schedules and triggers run as their own service; Secrets move to a vault; Sandboxes get short-lived tokens) _The sandbox dies, the agent dies with it_
+<!-- Review 3/4 Direct fix for SSH; the load problem is plausible but say why (long tasks, builds and many users on one machine). Typo: 'its is' to 'it is' -->
 
-<!-- Review 4/4 Direct fix; the agent loop is the last thing still tied to the machine -->
+> So you move the agent loop out (Sandboxes only run the work) _Sandbox keeps crashing_
 
-> So you move the agent loop out (Sandboxes only run the work; Spun up per task, thrown away after)
+<!-- Review 3/4 Fixes load by keeping the loop off the busy machine; 'Sandbox keeps crashing' needs a cause (heavy work, out of memory) -->
 
-<!-- Review 4/4 Direct fix, and it ends the infra track cleanly before the close -->
+> So you make the sandbox state durable _Every one is connected to the same sandbox_
+
+<!-- Review 2/4 Fixes crashes, but 'Every one is connected to the same sandbox' was true from the start, durability does not cause it. Reword as a consequence, e.g. 'Everyone queues for the same sandbox'. Typo: 'Everyone' -->
+
+> So you dynamically creates sandboxes to scale workloads _Each sandbox has the same size and privileges_
+
+<!-- Review 4/4 Direct fix, and same size and privileges is a direct result of stamping them out. Grammar: 'create' -->
+
+> So you create a group of sandboxes _Groups control resource type_
+
+<!-- Review 3/4 Direct fix, but 'Groups control resource type' is a benefit, not a problem; move it into the note. Ending without a problem is fine since Congratulations follows -->
 
 > Congratulations (You have built a simple software factory) _Now scale the factory_
 
