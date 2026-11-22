@@ -534,7 +534,6 @@ class: diagram, spaced
 
 - .icon[users] Many Teams, One Factory
 - .icon[gauge] Capacity and Cost
-- .icon[eye] Review Becomes the Limit
 - .icon[shield-alert] Production Safety
 
 ]
@@ -542,9 +541,15 @@ class: diagram, spaced
 
 - .icon[lock] Security and Compliance
 - .icon[book-open] Keeping Knowledge True
-- .icon[package] The Factory as a Product
+- .icon[footprints] Tracing Every Change
 
 ]
+]
+
+.text-center[
+
+### .icon[package] The .tc-underline[Factory] as a Product
+
 ]
 
 ???
@@ -561,30 +566,30 @@ class: diagram, spaced
 - Scheduling: thousands of agents compete for sandboxes, rate limits and CI runners; queues, priorities, fairness
 - Model routing: cheap work to cheap models, hard work to frontier models; the evals make that safe
 
-3. Review becomes the limit
-
-- Human attention is the scarce resource: output grows with compute, review grows with headcount
-- Risk-based review: sort changes by blast radius; low-risk ships on agent verification, humans see the risky ones
-- Trust is earned per area: track revert rates per part of the codebase, widen autonomy where the record is good
-
-4. Production safety
+3. Production safety
 
 - Blast radius: one bad rubric change affects every team; roll factory changes out gradually, with canaries and rollbacks
 - Accountability: someone is on call when the factory ships a bad fix; every change has a named human owner
 - Audit trail: which trigger, which agent, which rubric version, who approved
 
-5. Security and compliance
+4. Security and compliance
 
 - Permissions per team and per task: an agent working on billing cannot read HR data
 - Untrusted input at scale: every ticket and alert is text an attacker can write
 - Regulated work: some changes legally need a human sign-off; the workflow has to know which
 
-6. Keeping knowledge true
+5. Keeping knowledge true
 
 - Drift: 10,000 conversations a day write to the knowledge base; it goes stale faster than agents can clean it
 - Ownership: every page needs an owner and an expiry, or the factory learns from its own old mistakes
 
-7. The factory as a product
+6. Tracing every change
+
+- Who changed what: every commit, deploy and config edit is tied to the trigger, agent, model, prompt and rubric version behind it, plus the human who approved it
+- Agents and humans side by side: the log shows which changes were made by people and which by agents, so incidents and reverts can be traced to their source
+- Replayable: from any line in production you can walk back to the task, the conversation and the decision that produced it
+
+7. The factory as a product (the highlight: to scale, the factory has to be run as a product)
 
 - It needs its own team: uptime, upgrades and a roadmap for the factory itself
 - Model upgrades: a new model version shifts every rubric score and eval; treat it as a migration
