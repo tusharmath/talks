@@ -10,7 +10,7 @@ Format: `> So you ... (additional info) _problem_`
 
 Agent act: rewritten from the independent review (names the agent loop at the shell step, 400 sub-agents moved to the Factory act)
 AI SDLC act: average 3.8; goals and Congratulations share a problem
-Factory act: reworked from the independent review; open point is the messaging complexity of moving the agent loop out
+Factory act: reworked from the independent review; moving the agent loop out now spans five steps (control plane, message bus, durable calls, durable loop, leases)
 Control Plane, Credentials and sandbox reuse are now in the Factory act; Management Plane only through sandbox groups; Accountability not covered yet
 -->
 
@@ -101,21 +101,15 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 > So you make the agent headless (Anyone can drive it from any screen, even a phone) _A heavy build freezes the agent and nobody can connect_
 
-<!-- FIXME: Complexity of the messaging infra required to move the agent loop out is under appreciated here -->
-
-<!-- Proposal: give the messaging its own beat instead of hiding it in one step. Moving the loop out turns every tool call into a remote call, and that is where the real engineering is:
-
 > So you move the agent loop to a control plane (The machine becomes a sandbox that only runs the work; Every tool call is now a message) _Output streams arrive out of order, connections drop mid-command_
 
 > So you put a message bus between them (Ordered streams per task; Sandboxes reconnect and resume the stream) _A retried command runs twice_
 
-> So you make every call durable (Each call has an ID; Replays are safe; Files survive a crash) _Every trigger and agent queues for the same sandbox_
+> So you make every call durable (Each call has an ID; Replays are safe; Files survive a crash) _The agent loop crashes, the sandbox has nobody to report to_
 
-Replaces the current 'move the agent loop' and 'make the sandbox state durable' steps (two steps become three); 'Sandboxes are disposable, and so is their work' folds into the durable step -->
+> So you make the agent loop durable (Loop state saved after every step; A new loop picks up the task; Results wait on the bus until it is back) _Orphaned sandboxes keep running, and billing_
 
-> So you move the agent loop to a control plane (The machine becomes a sandbox that only runs the work) _Sandboxes are disposable, and so is their work_
-
-> So you make the sandbox state durable (Files survive a crash; The loop retries the step) _Every trigger and agent queues for the same sandbox_
+> So you give sandboxes a lease (Heartbeat to the loop; No loop for 10 minutes, the sandbox shuts down) _Every trigger and agent queues for the same sandbox_
 
 > So you spin up a sandbox per task (400 at once; Scale to zero when idle) _A typo fix gets the same 64 GB box and prod keys as a migration_
 
