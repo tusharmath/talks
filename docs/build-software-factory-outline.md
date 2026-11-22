@@ -8,13 +8,43 @@ Format: `> So you ... (additional info) _problem_`
 2 Noticeable jump: the fix or the problem does not follow
 1 No connection
 
-Agent act: rewritten from the independent review (names the agent loop at the shell step, 400 sub-agents moved to the Factory act)
-AI SDLC act: average 3.8; goals and Congratulations share a problem
-Factory act: reworked from the independent review; moving the agent loop out spans three steps (control plane with message bus, durable calls, durable loop with heartbeats)
-Control Plane, Credentials and sandbox reuse are now in the Factory act; Management Plane only through sandbox groups; Accountability runs as a thread: owner (AI SDLC), identity and trace (Factory)
+Scores per step: pending a fresh independent review
 -->
 
-## Agent
+## Topics
+
+Act 1: Build an Agent
+- [x] Tools: write, edit, shell, search, MCP
+- [x] Agent Loop
+- [x] Context: output caps, compaction
+- [x] Reliability: retries, fallbacks, resume
+- [x] Cost: open-weight models
+- [x] Evals and Per-Model Tuning
+- [x] Sub-Agents
+- [x] Team Rules: hooks, permissions, AGENTS.md, skills
+
+Act 2: Build an AI SDLC
+- [x] Knowledge
+- [x] Project Boards
+- [x] Verification and Artifacts
+- [x] Ownership
+- [x] Rubrics
+- [x] Self-Improvement: skills
+- [x] Reports
+- [x] Goals
+
+Act 3: Build the Factory
+- [x] Triggers
+- [x] Agent Identity
+- [x] Cloud Sandboxes
+- [x] Control Plane: agent loop over a message bus
+- [x] Durability: calls and loop
+- [x] Sandbox per Task: scale to zero
+- [x] Sandbox Groups: size, network, credentials, warm pools
+- [x] Tracing and Post-Mortems
+- [ ] Management Plane (only implied by sandbox groups)
+
+## Act 1: Build an Agent
 
 > So you call an LLM (Generates code) _Cannot write files_
 
@@ -54,28 +84,9 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 > Congratulations (You have built an agent) _Works only for whoever is driving it_
 
-## AI SDLC
+## Act 2: Build an AI SDLC
 
-### Pieces to cover
-
-- [x] Project Boards
-- [x] Reports
-- [x] Durability
-- [x] Cloud Sandboxes
-- [x] Control Plane
-- [x] Management Plane
-- [x] Verification
-- [x] Knowledge
-- [x] Artifacts
-- [x] Rubrics
-- [x] Cost
-- [x] Self Improving -> Skills
-- [x] Accountability
-- [x] Credentials
-
-### Story
-
-> Now build the factory (Ship with quality consistently) _Every agent starts from zero_
+> Now build an AI SDLC (Ship with quality consistently) _Every agent starts from zero_
 
 > So you add a shared knowledge base (Agents keep it in sync; Every agent now has enough context to act) _Every request becomes a PR on GitHub_
 
@@ -95,7 +106,7 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 > Congratulations (You have set up an AI SDLC) _Works only when you ask_
 
-## Factory
+## Act 3: Build the Factory
 
 > So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys) _A 3 a.m. alert ships a fix under your name_
 
