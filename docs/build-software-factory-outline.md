@@ -75,12 +75,6 @@ Format: `> So you ... (additional info) _problem_`
 
 > So you add a project board (Triage → Spec → Dev → QA → Review) _You have to move every card by hand_
 
-<!-- SHIP TO PROD: the pipeline stops at Review, nothing deploys, watches production or rolls back. Options:
-1. Extend the stages: > So you add a project board (Triage → Spec → Dev → QA → Review → Deploy) _You have to move every card by hand_
-2. Own step after verification or the board agent: > So you let the factory deploy (Canary first; Rolls back on a bad signal) _..._
-3. Use it as the "simple factory" signal at the end: _Still stops at a merged PR_
--->
-
 > So you set up an agent to run the board (Every task moves itself) _All working in silos_
 
 > So you add a shared knowledge base (Agents to keep it in sync) _Agents now ship faster than you can review_
@@ -98,43 +92,3 @@ Format: `> So you ... (additional info) _problem_`
 > So you move the agent loop out (Sandboxes only run the work; Spun up per task, thrown away after)
 
 > Congratulations (You have built a simple software factory) _Now scale the factory_
-
-<!-- SCALING THE FACTORY (speaking pointers for "Now scale the factory")
-
-1. Many teams, one factory
-- Conflicting goals: one team wants speed, another stability; needs a goal hierarchy, company goals above team goals
-- Shared vs local: what is shared across the org (knowledge, rubrics, workflows) and what each team can override
-- Cross-team work: a task touching three repos owned by three teams needs one owner and one board
-
-2. Capacity and cost
-- Budgets: per team, per project, per task; the factory stops work that is not worth the spend
-- Scheduling: thousands of agents compete for sandboxes, rate limits and CI runners; queues, priorities, fairness
-- Model routing: cheap work to cheap models, hard work to frontier models; the evals make that safe
-
-3. Production safety
-- Blast radius: one bad rubric change affects every team; roll factory changes out gradually, with canaries and rollbacks
-- Accountability: someone is on call when the factory ships a bad fix; every change has a named human owner
-- Audit trail: which trigger, which agent, which rubric version, who approved
-
-4. Security and compliance
-- Permissions per team and per task: an agent working on billing cannot read HR data
-- Untrusted input at scale: every ticket and alert is text an attacker can write
-- Regulated work: some changes legally need a human sign-off; the workflow has to know which
-
-5. Keeping knowledge true
-- Drift: 10,000 conversations a day write to the knowledge base; it goes stale faster than agents can clean it
-- Ownership: every page needs an owner and an expiry, or the factory learns from its own old mistakes
-
-6. Tracing every change
-- Who changed what: every commit, deploy and config edit is tied to the trigger, agent, model, prompt and rubric version behind it, plus the human who approved it
-- Agents and humans side by side: the log shows which changes were made by people and which by agents, so incidents and reverts can be traced to their source
-- Replayable: from any line in production you can walk back to the task, the conversation and the decision that produced it
-
-7. The factory as a product (the highlight: to scale, the factory has to be run as a product)
-- It needs its own team: uptime, upgrades and a roadmap for the factory itself
-- Model upgrades: a new model version shifts every rubric score and eval; treat it as a migration
-- Measuring the factory: from tasks completed to business outcomes (idea-to-production cycle time, defects reaching customers)
-
-Closing line: a simple factory replaces the work; a scaled factory has to replace the coordination, which is the harder part
-If short on time, pick three: the factory as a product (7), tracing every change (6), conflicting goals (1)
--->
