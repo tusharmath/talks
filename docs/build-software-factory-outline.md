@@ -8,7 +8,7 @@ Format: `> So you ... (additional info) _problem_`
 2 Noticeable jump: the fix or the problem does not follow
 1 No connection
 
-Agent act: average 3.7, tight throughout
+Agent act: rewritten from the independent review (names the agent loop at the shell step, 400 sub-agents moved to the Factory act)
 AI SDLC act: average 3.8; goals and Congratulations share a problem
 Factory act: reworked from the independent review; open point is the messaging complexity of moving the agent loop out
 Control Plane, Credentials and sandbox reuse are now in the Factory act; Management Plane only through sandbox groups; Accountability not covered yet
@@ -16,33 +16,19 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 ## Agent
 
-> You call an LLM (Generates code) _Cannot write files_
+> So you call an LLM (Generates code) _Cannot write files_
 
-<!-- Suggest: So you call an LLM (Generates code) _Cannot write files_ (starts the 'So you' rhythm, echoes the title) -->
+> So you give the LLM a write tool (Whole file as one JSON string) _Sends broken JSON_
 
-> So you give the LLM a write tool _Sends broken JSON_
+> So you repair the JSON (Writes land now) _Still resends a 2,000-line file to change one line_
 
-<!-- Suggest: So you give the LLM a write tool (Whole file as one JSON string) _Sends broken JSON_ (says why it breaks) -->
+> So you give the agent an edit tool (Search and replace) _Breaks the build and never finds out_
 
-> So you repair the JSON _Rewrites the whole file to change one line_
+> So you give the agent a shell (Runs, reads the error, tries again: the agent loop) _Cats a 10,000-line file_
 
-<!-- Suggest: So you repair the JSON (Writes land now) _Still resends a 2,000-line file to change one line_ -->
+> So you add more tools (Ranged read and grep, then fetch, git, browser) _Every service needs a hand-written tool_
 
-> So you give the agent an edit tool _Cannot run the code_
-
-<!-- Suggest: So you give the agent an edit tool (Search and replace) _Breaks the build and never finds out_ -->
-
-> So you give the agent a shell _Cats a 10,000 line file_
-
-<!-- Suggest: So you give the agent a shell (Runs, reads the error, tries again: the agent loop) _Cats a 10,000-line file_ (names the agent loop so Act 3 can move it out) -->
-
-> So you add more tools (Read, search, RAG, fetch, git, browser) _Every service wants a dedicated tool_
-
-<!-- Suggest: So you add more tools (Ranged read and grep, then fetch, git, browser) _Every service needs a hand-written tool_ (drop RAG) -->
-
-> So you add MCP (Another 100 tools) _Their schemas eat the context_
-
-<!-- Suggest: So you add MCP (Another 100 tools) _Tool schemas eat the context_ -->
+> So you add MCP (Another 100 tools) _Tool schemas eat the context_
 
 > So you load tools dynamically _Does not know which tools exist_
 
@@ -52,37 +38,21 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 > So you compact (Runs for hours) _The provider fails on a normal Tuesday_
 
-> So you add retries, limits and resume (Runs all week) _A $1,000 bill arrives_
+> So you add retries, fallbacks and resume (Runs all week) _A $1,000 bill arrives_
 
-<!-- Suggest: So you add retries, fallbacks and resume (Runs all week) _A $1,000 bill arrives_ ('limits' reads as spend limits) -->
+> So you add open-weight models (A fraction of the cost) _Sometimes calls the wrong tool with made-up arguments_
 
-> So you add open-weight models (Call the wrong tool) _With made-up arguments_
+> So you write evals (Real tasks from your repos; Right tool, right arguments, tests pass) _Every model fails differently_
 
-<!-- Suggest: So you add open-weight models (A fraction of the cost) _Sometimes calls the wrong tool with made-up arguments_ -->
+> So you tune for each model (Per-model prompts on a shared harness) _A fix for one model breaks another_
 
-> So you write evals (Real tasks from your own repos; Scored on right tool, right arguments, tests pass) _Every model fails differently_
+> So you run the evals on every change (Prompt, tool description, model version) _Correct, but a big task crawls one step at a time_
 
-<!-- Suggest: So you write evals (Real tasks from your repos; Right tool, right arguments, tests pass) _Every model fails differently_ -->
+> So you add sub-agents (A dozen in the background; You keep talking while they work) _Now every team wants it, each their own way_
 
-> So you tune for each model (Prompts and tool descriptions per model) _A fix for one model breaks another_
+> So you add hooks, permissions, AGENTS.md and skills (Every team sets its own rules)
 
-<!-- Suggest: So you tune for each model (Per-model prompts on a shared harness) _A fix for one model breaks another_ -->
-
-> So you run the evals on every change (Prompt, tool description, model version) _Passes the evals, still takes all day on a big task_
-
-<!-- Suggest: So you run the evals on every change (Prompt, tool description, model version) _Correct, but a big task crawls one step at a time_ -->
-
-> So you add sub-agents (Spawn 400 in the background; You keep talking while they work) _Every team wants the agent to work their way_
-
-<!-- Suggest: So you add sub-agents (A dozen in the background; You keep talking while they work) _Now every team wants it, each their own way_ (400 moves to sandbox per task) -->
-
-> So you add support for hooks, permissions, AGENTS.md and skills (Every team sets its own rules)
-
-<!-- Suggest: So you add hooks, permissions, AGENTS.md and skills (Every team sets its own rules) -->
-
-> Congratulations (You have built an agent) _Outcomes aren't reliable_
-
-<!-- Suggest: Congratulations (You have built an agent) _Works only for whoever is driving it_ ('Outcomes aren't reliable' clashes with 'Passes the evals') -->
+> Congratulations (You have built an agent) _Works only for whoever is driving it_
 
 ## AI SDLC
 
