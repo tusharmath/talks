@@ -85,7 +85,9 @@ Format: `> So you ... (additional info) _problem_`
 
 > So you make every step durable (Tasks resume where they stopped; The machine is replaced) _Schedules and triggers die with the machine_
 
-> So you move the management plane out (Secrets move to a vault; Sandboxes get short-lived tokens; Everyone has their own machines) _All working in silos_
+> So you move the management plane out (Secrets move to a vault; Sandboxes get short-lived tokens) _The agent loop still runs inside the sandbox_
+
+> So you move the agent loop out (Sandboxes only run the work; Spun up per task, thrown away after; Everyone has their own machines) _All working in silos_
 
 > So you add a shared knowledge base (Agents to keep it in sync) _Agents now ship faster than you can review_
 

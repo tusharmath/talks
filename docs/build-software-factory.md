@@ -442,10 +442,27 @@ class: diagram, story
 
 ## .icon[arrow-right] So you move the management plane out
 
-![three layers: control plane (UI, sessions, steering), management plane (triggers, schedules, lifecycle, a secrets vault) running as its own service, and cloud machines below as disposable sandboxes receiving short-lived tokens per task](./img/story/f09.svg)
+![three layers: control plane (UI, sessions, steering), management plane (triggers, schedules, lifecycle, a secrets vault) running as its own service, and cloud machines below as sandboxes receiving short-lived tokens per task; the agent still runs inside each sandbox, so when one dies the agent dies with it](./img/story/f09.svg)
 
 <!-- Secrets move to a vault -->
 <!-- Sandboxes get short-lived tokens -->
+
+.text-center[
+
+### .icon[circle-alert] The agent loop still runs inside the sandbox
+
+]
+
+---
+
+class: diagram, story
+
+## .icon[arrow-right] So you move the agent loop out
+
+![the agent loop (model calls, context, decisions) runs as a service next to the management plane; sandboxes below are thin disposable workers that only execute tool calls (shell, edit, tests) and stream results back; one sandbox is thrown away and replaced while the agent keeps its place; then everyone is walled into their own machines](./img/story/f09b.svg)
+
+<!-- Sandboxes only run the work -->
+<!-- Spun up per task, thrown away after -->
 <!-- Everyone has their own machines -->
 
 .text-center[

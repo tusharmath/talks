@@ -2,7 +2,7 @@
 """Story diagrams for the "So you want to build a software factory?" deck.
 
 Run: `python3 docs/img/story/generate.py`. Writes a01.svg ... a18.svg (agent
-half) and f01.svg ... f13.svg (factory half) next to this file.
+half) and f01.svg ... f13.svg plus f09b.svg (factory half) next to this file.
 
 Design language follows the anatomy deck: dark boxes, Lucide icons, Space Mono
 labels, coloured work items on a belt, orange for the thing you just built,
@@ -979,44 +979,124 @@ def build_factory():
     scenes.append(f8)
 
     MP = (2050, 150)
+    MPW = 320  # management plane box width; the agent loop service sits to its right
+    VAULT_X = MP[0] + 290
+    LOOP = (2390, 150)  # left edge of the agent loop box
+    LOOPW = 220
+    LOOP_CX = LOOP[0] + LOOPW // 2
+    SANDBOXES = [MP[0] + 60 + n * 130 for n in range(4)]
+    WORK = ["terminal", "pencil", "flask-conical", "terminal"]  # what each sandbox runs
+    SILOS = [ORANGE, CYAN, YELLOW]
 
     def mplane(begin=None):
-        bx = f'<rect x="0" y="-30" width="560" height="60" rx="12" fill="{BOX}" stroke="{ORANGE if begin is not None else WIRE}" stroke-width="2"/>' + text(80, 5, "management plane", 12, TEXT)
+        bx = f'<rect x="0" y="-30" width="{MPW}" height="60" rx="12" fill="{BOX}" stroke="{ORANGE if begin is not None else WIRE}" stroke-width="2"/>' + text(74, 5, "management plane", 12, TEXT)
         out = pop(bx, *MP, begin)
         for n, (ic, lab) in enumerate([("clock", "schedules"), ("webhook", "triggers"), ("vault", "vault")]):
             b = None if begin is None else begin + 0.4 + n * 0.2
-            out += pop(node(ic, None, 34, ORANGE if ic == "vault" and begin is not None else TEXT), MP[0] + 230 + n * 110, MP[1], b)
+            out += pop(node(ic, None, 34, ORANGE if ic == "vault" and begin is not None else TEXT), MP[0] + 180 + n * 55, MP[1], b)
         return out
 
-    # 9 management plane (pan)
+    def sandbox(x, begin=None, red_at=None):
+        return pop(node("server", "sandbox", 44, TEXT, red_at=red_at), x, 248, begin)
+
+    def badge(ic, x, color, begin=None):
+        """Small icon on a sandbox's top-right corner: the agent inside, or the work it runs."""
+        return pop(node(ic, None, 22, color, stroke="none"), x + 30, 222, begin)
+
+    def fade_out(inner, begin, to=0):
+        return f'<g>{inner}<animate attributeName="opacity" to="{to}" begin="{begin}s" dur="0.3s" fill="freeze"/></g>'
+
+    # 9 management plane (pan): the agent still lives inside each sandbox
     def f9():
         i = 8
         world = static(i) + mplane(1.0)
-        boxes = []
-        for n in range(4):
-            x = MP[0] + 60 + n * 130
-            world += pop(node("server", "sandbox", 44, TEXT), x, 248, 1.6 + n * 0.15)
-            world += once(f"M{MP[0] + 450} {MP[1] + 30} L{x} 220", dur=0.8, begin=2.2 + n * 0.2,
+        for n, x in enumerate(SANDBOXES):
+            last = n == 3
+            world += sandbox(x, 1.6 + n * 0.15, red_at=3.6 if last else None)
+            bot = badge("bot", x, ORANGE, 1.8 + n * 0.15)
+            world += fade_out(bot, 3.6) if last else bot
+            world += once(f"M{VAULT_X} {MP[1] + 30} L{x} 220", dur=0.8, begin=2.2 + n * 0.2,
                           inner=icon("key-round", 0, 0, 18, YELLOW))
-        # silos: three people, each walled in with their own machines
-        for n, c in enumerate([ORANGE, CYAN, YELLOW]):
-            x = MP[0] + 690 + n * 100
-            wall = f'<rect x="{x - 42}" y="20" width="84" height="270" rx="10" fill="none" stroke="{RED}" stroke-width="2" stroke-dasharray="6 6"/>'
-            world += hidden_until(wall, 3.6 + n * 0.1)
-            world += pop(node("user", None, 34, c, stroke=c), x, 50, 3.2 + n * 0.15)
-            world += pop(node("server", None, 30, c), x - 18, 248, 3.3 + n * 0.15)
-            world += pop(node("server", None, 30, c), x + 18, 248, 3.4 + n * 0.15)
-        world += alert(MP[0] + 940, 26, 4.2)
-        persist.append((8, lambda i: mplane() + "".join(pop(node("server", "sandbox", 44), MP[0] + 60 + n * 130, 248) for n in range(4))
-                        + "".join(pop(node("user", None, 34, c, stroke=c), MP[0] + 690 + n * 100, 50) for n, c in enumerate([ORANGE, CYAN, YELLOW]))))
-        return frame(i, F[1] - 60, F[2], world, "Schedules, triggers and a vault move to a management plane, sandboxes get short-lived keys; everyone works in a silo.")
+        # the last sandbox dies and takes its agent (and the run) with it
+        world += hidden_until(text(SANDBOXES[3] + 44, 253, "agent gone with it", 12, RED, "start"), 3.8)
+        world += alert(SANDBOXES[3] + 30, 222, 3.8)
+        persist.append((8, lambda i: mplane() + "".join(sandbox(x) for n, x in enumerate(SANDBOXES) if not (i == 9 and n == 3))))
+        return frame(i, F[1] - 60, F[2], world, "Schedules, triggers and a vault move to a management plane, sandboxes get short-lived keys; the agent still runs inside the sandbox and dies with it.")
     scenes.append(f9)
+
+    def agent_loop(begin=None):
+        lit = begin is not None
+        bx = (
+            f'<rect x="0" y="-30" width="{LOOPW}" height="60" rx="12" fill="{BOX}" stroke="{ORANGE if lit else WIRE}" stroke-width="2"/>'
+            f'<g transform="translate(32 0)">{node("brain", None, 34, ORANGE if lit else TEXT)}</g>'
+            + text(124, 5, "agent loop", 12, TEXT)
+        )
+        return pop(bx, *LOOP, begin)
+
+    def call_path(x):
+        return f"M{LOOP_CX - 10} {LOOP[1] + 30} V198 H{x - 8} V224"
+
+    def result_path(x):
+        return f"M{x + 8} 224 V208 H{LOOP_CX + 10} V{LOOP[1] + 30}"
+
+    def bus(begin=None):
+        d = " ".join(call_path(x) + " " + result_path(x) for x in SANDBOXES)
+        link = f"M{MP[0] + MPW} {MP[1]} H{LOOP[0]}"
+        el = f'<path d="{d} {link}" fill="none" stroke="{WIRE}" stroke-width="1.5" stroke-linejoin="round"/>'
+        return hidden_until(el, begin)
+
+    def silo_users(begin=None):
+        return "".join(
+            pop(node("user", None, 34, c, stroke=c), MP[0] + 690 + n * 100, 50, None if begin is None else begin + n * 0.15)
+            for n, c in enumerate(SILOS)
+        )
+
+    # 9b agent loop moves out; sandboxes only run the tool calls
+    def f9b():
+        i = 9
+        world = static(i)
+        world += bus(1.6)
+        world += agent_loop(0.3)
+        # the agents leave their sandboxes and move into the loop service
+        for n, x in enumerate(SANDBOXES):
+            world += fade_out(badge("bot", x, ORANGE), 0.7)
+            world += once(f"M{x + 30} 222 L{LOOP[0] + 32} {LOOP[1]}", dur=0.9, begin=0.7 + n * 0.1,
+                          inner=node("bot", None, 22, ORANGE, stroke="none"))
+        # the sandboxes that stay: tool calls down (cyan), results back up (lime)
+        for n, x in enumerate(SANDBOXES[:3]):
+            world += badge(WORK[n], x, CYAN, 1.8 + n * 0.1)
+            world += flow(call_path(x), CYAN, 1.2, 2.0 + n * 0.3, 1, size=7)
+            world += flow(result_path(x), LIME, 1.2, 2.6 + n * 0.3, 1, size=7)
+        # the last sandbox is thrown away and replaced; the loop keeps its place
+        x = SANDBOXES[3]
+        old = sandbox(x, red_at=3.4) + badge(WORK[3], x, CYAN, 2.1)
+        world += fade_out(old, 3.8)
+        world += flow(call_path(x), CYAN, 1.2, 2.2, 1, size=7, stop=3.4)
+        world += flow(result_path(x), LIME, 1.2, 2.8, 1, size=7, stop=3.4)
+        world += sandbox(x, 4.2) + badge(WORK[3], x, CYAN, 4.4)
+        world += flow(call_path(x), CYAN, 1.2, 4.5, 1, size=7)
+        world += flow(result_path(x), LIME, 1.2, 5.1, 1, size=7)
+        world += hidden_until(text(x + 44, 253, "replaced", 12, LIME, "start"), 4.4)
+        world += counter(LOOP_CX, 112, [f"step {k}" for k in range(12, 20)], 2.0, 0.55, 11, MUTED)
+        # silos: three people, each walled in with their own machines
+        world += silo_users(4.8)
+        for n, c in enumerate(SILOS):
+            sx = MP[0] + 690 + n * 100
+            wall = f'<rect x="{sx - 42}" y="20" width="84" height="270" rx="10" fill="none" stroke="{RED}" stroke-width="2" stroke-dasharray="6 6"/>'
+            world += hidden_until(wall, 5.2 + n * 0.1)
+            world += pop(node("server", None, 30, c), sx - 18, 248, 4.9 + n * 0.15)
+            world += pop(node("server", None, 30, c), sx + 18, 248, 5.0 + n * 0.15)
+        world += alert(MP[0] + 925, 26, 5.8)
+        persist.append((9, lambda i: bus() + agent_loop()
+                        + "".join(badge(WORK[n], x, MUTED) for n, x in enumerate(SANDBOXES)) + silo_users()))
+        return frame(i, F[2], F[2], world, "The agent loop runs as a service next to the management plane; sandboxes only run tool calls and are replaced without losing the step; everyone works in a silo.")
+    scenes.append(("f09b", f9b))
 
     KB = (2790, 150)
 
     # 10 knowledge base
     def f10():
-        i = 9
+        i = 10
         world = static(i)
         world += pop(node("library", "knowledge", 60, ORANGE, stroke=ORANGE), *KB, 0.4)
         for n, c in enumerate([ORANGE, CYAN, YELLOW]):
@@ -1030,7 +1110,7 @@ def build_factory():
         for k in range(14):
             world += hidden_until(f'<rect x="{rx - 22}" y="{270 - k * 14}" width="44" height="10" rx="2" fill="{CYAN if k < 7 else RED}"/>', 2.0 + k * 0.18)
         world += alert(rx + 30, 70, 4.6)
-        persist.append((9, lambda i: pop(node("library", "knowledge", 60), *KB)))
+        persist.append((10, lambda i: pop(node("library", "knowledge", 60), *KB)))
         return frame(i, F[2], F[2], world, "Everyone, human and agent, shares one knowledge base kept in sync by agents; work outruns review.")
     scenes.append(f10)
 
@@ -1046,7 +1126,7 @@ def build_factory():
 
     # 11 rubrics (pan)
     def f11():
-        i = 10
+        i = 11
         world = static(i)
         world += pop(node("ruler", "rubric", 56, ORANGE, stroke=ORANGE), *RUB, 1.0)
         world += flow(f"M{F[3] - 100} {RUB[1]} L{RUB[0] - 28} {RUB[1]}", CYAN, 1.0, 1.4, 3)
@@ -1058,7 +1138,7 @@ def build_factory():
         world += flow(f"M{HIST[0]} {HIST[1] - 12} L{RUB[0]} {RUB[1] + 28}", MUTED, 0.6, 3.4, 10, size=6)
         world += counter(RUB[0] + 60, 232, ["re-scoring 1 / 48,210", "re-scoring 9,400 / 48,210", "re-scoring 31,050 / 48,210"], 3.6, 0.9, 12, MUTED, RED, "start")
         world += alert(RUB[0] + 28, RUB[1] - 28, 4.6)
-        persist.append((10, lambda i: pop(node("ruler", "rubric", 56, DIM if i >= 12 else TEXT), *RUB)
+        persist.append((11, lambda i: pop(node("ruler", "rubric", 56, DIM if i >= 13 else TEXT), *RUB)
                         + pop(node("user-cog", "exceptions", 40), RUB[0], 50) + history()))
         return frame(i, F[2], F[3] - 40, world, "Agents review against a rubric and humans take the exceptions; every tweak re-scores all the history.")
     scenes.append(f11)
@@ -1073,7 +1153,7 @@ def build_factory():
 
     # 12 reports
     def f12():
-        i = 11
+        i = 12
         world = static(i) + report(0.4)
         world += draw_line(HIST[0] + 70, HIST[1], REP[0] - 70, REP[1] + 30, 0.8, WIRE, 2)
         world += flow(f"M{HIST[0] + 70} {HIST[1]} L{REP[0] - 70} {REP[1] + 30}", MUTED, 1.0, 1.0, 3, size=6)
@@ -1082,7 +1162,7 @@ def build_factory():
         world += f'<g opacity="0"><set attributeName="opacity" to="1" begin="2.6s"/>{pop(node("ruler", "rubric", 56, DIM, stroke=RED), *RUB)}</g>'
         world += hidden_until(text(RUB[0], RUB[1] - 44, "unchanged since March", 11, RED), 3.0)
         world += alert(RUB[0] + 28, RUB[1] - 28, 3.2)
-        persist.append((11, lambda i: report()))
+        persist.append((12, lambda i: report()))
         return frame(i, F[3] - 40, F[3] - 40, world, "Reports keep the history: cost per task, cycle time, rework; the rubrics go stale.")
     scenes.append(f12)
 
@@ -1090,7 +1170,7 @@ def build_factory():
 
     # 13 goals: the self-improving loop
     def f13():
-        i = 12
+        i = 13
         world = static(i)
         world += pop(node("target", "goals", 60, ORANGE, stroke=ORANGE, glow=True), *GOAL, 0.4)
         # target line over the report, bars climbing to it
@@ -1108,8 +1188,16 @@ def build_factory():
         return frame(i, F[3] - 40, F[3] - 40, world, "Goals sit over the reports; an agent tunes rubrics and workflows until the numbers reach them.")
     scenes.append(f13)
 
-    for n, fn in enumerate(scenes, 1):
-        p = OUT / f"f{n:02d}.svg"
+    # Scenes are numbered in order; an inserted scene carries its own name
+    # (e.g. f09b) so later files keep their numbers.
+    n = 0
+    for entry in scenes:
+        if isinstance(entry, tuple):
+            name, fn = entry
+        else:
+            n += 1
+            name, fn = f"f{n:02d}", entry
+        p = OUT / f"{name}.svg"
         p.write_text(fn())
         files.append(p.name)
     return files
