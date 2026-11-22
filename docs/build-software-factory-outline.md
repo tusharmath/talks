@@ -81,13 +81,7 @@ Format: `> So you ... (additional info) _problem_`
 3. Use it as the "simple factory" signal at the end: _Still stops at a merged PR_
 -->
 
-> So you set up an agent to run the board (Every task moves itself; The agent crashes mid-run) _The task is lost_
-
-> So you make every step durable (Tasks resume where they stopped; The machine is replaced) _Schedules and triggers die with the machine_
-
-> So you move the management plane out (Secrets move to a vault; Sandboxes get short-lived tokens) _The agent loop still runs inside the sandbox_
-
-> So you move the agent loop out (Sandboxes only run the work; Spun up per task, thrown away after; Everyone has their own machines) _All working in silos_
+> So you set up an agent to run the board (Every task moves itself) _All working in silos_
 
 > So you add a shared knowledge base (Agents to keep it in sync) _Agents now ship faster than you can review_
 
@@ -95,7 +89,13 @@ Format: `> So you ... (additional info) _problem_`
 
 > So you set up reports (Maintains historical data; Cost per task, cycle time, rework) _The rubrics go stale_
 
-> So you set up goals (An agent tunes the rubrics and workflows to hit them)
+> So you set up goals (An agent tunes the rubrics and workflows to hit them; Runs for days; The agent crashes mid-run) _The task is lost_
+
+> So you make every step durable (Tasks resume where they stopped; The machine is replaced) _Schedules and triggers die with the machine_
+
+> So you move the management plane out (Secrets move to a vault; Sandboxes get short-lived tokens) _The agent loop still runs inside the sandbox_
+
+> So you move the agent loop out (Sandboxes only run the work; Spun up per task, thrown away after)
 
 > Congratulations (You have built a simple software factory) _Now scale the factory_
 
