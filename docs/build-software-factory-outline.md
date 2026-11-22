@@ -9,8 +9,8 @@ Format: `> So you ... (additional info) _problem_`
 1 No connection
 
 Agent act: average 3.7, tight throughout
-AI SDLC act: average 3.5; the opener has no problem line, so the knowledge base has no setup, and goals and Congratulations share a problem
-Factory act: average 3.4; weakest link is durable sandbox state to 'everyone on the same sandbox', and the headless and agent loop problems need a cause
+AI SDLC act: average 3.8; goals and Congratulations share a problem
+Factory act: average 3.5; the headless and agent loop problems need a cause
 Pieces to cover not in the story any more: Control Plane, Management Plane, Credentials (secrets vault, short-lived tokens)
 -->
 
@@ -111,13 +111,13 @@ Pieces to cover not in the story any more: Control Plane, Management Plane, Cred
 
 ### Story
 
-> Now build the factory (Ship with quality consistently)
+> Now build the factory (Ship with quality consistently) _Every agent starts from zero_
 
-<!-- Review 3/4 Answers 'Outcomes aren't reliable', but the act is now AI SDLC, so 'build the factory' is early; also no problem line, so nothing sets up the knowledge base. Try 'Now build an AI SDLC' with _Every agent starts from zero_ -->
+<!-- Review 3/4 Answers 'Outcomes aren't reliable' and now sets up the knowledge base; the act is AI SDLC, so 'build the factory' is still early -->
 
 > So you add a shared knowledge base (Agents keep it in sync; Every agent now has enough context to act) _Every request becomes a PR on GitHub_
 
-<!-- Review 2/4 The silos problem that motivated it moved to the Factory act, so nothing leads here yet; the PR flood still leans on the note -->
+<!-- Review 4/4 Direct fix for 'Every agent starts from zero'; the PR flood follows from agents now having enough context to act -->
 
 > So you integrate a project board (Triage → Spec → Dev → QA → Review; Not everything needs a PR) _You have to move every card by hand_
 
@@ -161,9 +161,9 @@ Pieces to cover not in the story any more: Control Plane, Management Plane, Cred
 
 <!-- Review 3/4 Fixes load by keeping the loop off the busy machine; 'Sandbox keeps crashing' needs a cause (heavy work, out of memory) -->
 
-> So you make the sandbox state durable _Every one is connected to the same sandbox_
+> So you make the sandbox state durable (A crashed sandbox comes back where it stopped) _Everyone queues for the same sandbox_
 
-<!-- Review 2/4 Fixes crashes, but 'Every one is connected to the same sandbox' was true from the start, durability does not cause it. Reword as a consequence, e.g. 'Everyone queues for the same sandbox'. Typo: 'Everyone' -->
+<!-- Review 3/4 Direct fix for crashes; once crashes stop being the limit, the single shared sandbox becomes the bottleneck, though durability does not cause it -->
 
 > So you dynamically creates sandboxes to scale workloads _Each sandbox has the same size and privileges_
 
