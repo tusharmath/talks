@@ -107,35 +107,35 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 > Now build the factory (Ship with quality consistently) _Every agent starts from zero_
 
-<!-- Suggest: So you roll it out to every team (Ship with quality, every time) _What one agent learns, the next one never sees_ ('starts from zero' contradicts AGENTS.md; 'factory' is Act 3's name) -->
-
 > So you add a shared knowledge base (Agents keep it in sync; Every agent now has enough context to act) _Every request becomes a PR on GitHub_
-
-<!-- Suggest: So you add a shared knowledge base (Agents keep it in sync; Every agent has enough context to act) _Every request goes straight to a PR, with no triage or spec_ -->
 
 > So you integrate a project board (Triage → Spec → Dev → QA → Review; Not everything needs a PR) _You have to move every card by hand_
 
 > So you set up an agent to run the board (Every card moves itself; Verification agents run QA and attach artifacts) _Agents now ship faster than you can review_
 
-<!-- Suggest: So you hand the board to an agent (Every card moves itself; Verification agents run QA and attach artifacts) _Agents open PRs faster than you can review_. For the FIXME (signal self-improvement instead of review): _The same mistakes come back every week_, then rubrics + skills as the way the factory learns -->
-
 <!-- FIXME: Too much of focus on review - should signal self improvement -->
+
+<!-- Proposal: make the act about the factory learning, with review as one input, not the theme. Rubrics catch mistakes, skills stop them coming back, reports show whether that worked, goals close the loop:
+
+> So you set up an agent to run the board (Every card moves itself; Verification agents run QA and attach artifacts) _Agents repeat the same mistakes_
+
+> So you set up rubrics (Agents grade every task; Humans take the exceptions) _Failures are recorded, nothing learns from them_
+
+> So you turn failures into skills (Agents write a skill from each repeated fix; The next agent loads it) _You cannot tell if a skill helped_
+
+> So you set up reports (Cost per task, cycle time, rework, per skill; Kept over time) _Someone has to read them and decide what to change_
+
+> So you set up goals (An agent tunes rubrics, skills and workflows to hit them; Rework is the guardrail)
+
+Covers 'Self Improving -> Skills' from the checklist; Congratulations keeps 'Works only when you ask' -->
 
 > So you set up rubrics (Agents review against the rubric, humans take the exceptions) _You cannot tell if the rubrics are working_
 
-<!-- Suggest: So you write rubrics (Agents review against the rubric, humans take the exceptions) _You cannot tell if the rubrics work_ -->
-
 > So you set up reports (Cost per task, cycle time, rework; Kept over time) _Someone has to read them and tune the rubrics_
-
-<!-- Suggest: So you add reports (Cost per task, cycle time, rework; Kept over time) _Someone has to read them and tune the rubrics_ -->
 
 > So you set up goals (An agent tunes the rubrics and workflows to hit them) _Goals are only checked when you ask_
 
-<!-- Suggest: So you set goals (An agent tunes rubrics, workflows and skills to hit them; Rework is the guardrail) with no problem line, so Congratulations carries it (avoids gaming the metric and the duplicate problem) -->
-
 > Congratulations (You have setup an AI SDLC) _Works only when you ask_
-
-<!-- Suggest: Congratulations (You have set up an AI SDLC) _Works only when you ask_ -->
 
 ## Factory
 
@@ -147,7 +147,15 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 
 <!-- FIXME: Complexity of the messaging infra required to move the agent loop out is under appreciated here -->
 
-<!-- Suggest: put the messaging cost on screen in the note and the problem, e.g. (Every tool call is now a message across the network; Streaming output, ordering, reconnects) _A dropped connection leaves a command half run_. Then durability answers both crashes and dropped messages: (Every call has an ID; Replays are safe; Files survive a crash) -->
+<!-- Proposal: give the messaging its own beat instead of hiding it in one step. Moving the loop out turns every tool call into a remote call, and that is where the real engineering is:
+
+> So you move the agent loop to a control plane (The machine becomes a sandbox that only runs the work; Every tool call is now a message) _Output streams arrive out of order, connections drop mid-command_
+
+> So you put a message bus between them (Ordered streams per task; Sandboxes reconnect and resume the stream) _A retried command runs twice_
+
+> So you make every call durable (Each call has an ID; Replays are safe; Files survive a crash) _Every trigger and agent queues for the same sandbox_
+
+Replaces the current 'move the agent loop' and 'make the sandbox state durable' steps (two steps become three); 'Sandboxes are disposable, and so is their work' folds into the durable step -->
 
 > So you move the agent loop to a control plane (The machine becomes a sandbox that only runs the work) _Sandboxes are disposable, and so is their work_
 
