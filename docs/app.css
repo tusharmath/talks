@@ -861,6 +861,16 @@ h3 {
 .remark-slide-content.diagram.story > .text-center h3 {
   padding: 0.15em 0;
 }
+/* A long problem line may be wider than the content box: let its box bleed
+   into the side padding (128px) so it stays on one line, centred, and wrap
+   only if it is wider than that. */
+.remark-slide-content.diagram.story > .text-center {
+  margin-inline: -96px;
+}
+.remark-slide-content.diagram.story > .text-center h3 {
+  white-space: normal;
+  text-wrap: pretty;
+}
 /* Story titles start with an arrow icon but may be long: let them wrap, with
    the second line aligned under the text rather than the arrow. */
 .remark-slide-content.story > h2:has(> .icon:first-child) {

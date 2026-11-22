@@ -48,9 +48,11 @@ class: diagram, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you repair the JSON
+
+![a repair step closing a cut-off JSON string so the write lands, leaving a file with only its first half saved](./img/story/a03.svg)
 
 <!-- Writes land now -->
 
@@ -94,9 +96,11 @@ class: diagram, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you add read and search tools
+
+![read with line ranges and grep working on the repo, while the ticket, the logs and the docs sit out of reach](./img/story/a06.svg)
 
 <!-- Line ranges, grep -->
 
@@ -190,9 +194,11 @@ class: diagram, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you add retries, fallbacks and resume
+
+![retries, a fallback to a backup provider and resume keep the run going all week on your laptop, until one bug fix costs $1,000](./img/story/a12.svg)
 
 <!-- Runs all week on your laptop -->
 
@@ -269,9 +275,11 @@ class: diagram, story
 
 ---
 
-class: middle, story
+class: diagram, story
 
 ## .icon[arrow-right] So you add sub-agents
+
+![a dozen sub-agents working in the background while you keep talking to the agent, until one force-pushes to main](./img/story/a17.svg)
 
 <!-- A dozen in the background -->
 <!-- You keep talking while they work -->

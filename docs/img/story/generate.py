@@ -399,7 +399,7 @@ def build_agent():
                 out += f'<rect x="{x + 10}" y="{ly}" width="{w}" height="5" rx="2" fill="{col}"/>'
         return hidden_until(out, begin)
 
-    # 3 repair the JSON
+    # 3 repair the JSON: the cut-off string is closed, so half the file lands
     def s3():
         i, cam = 2, 0
         world = world_static(i)
@@ -409,12 +409,41 @@ def build_agent():
         # packets go in red, come out cyan at the repair step
         pinned += flow(f"M{CORE[0] + 36} {CORE[1]} L318 {CORE[1]}", RED, 0.8, 1.0, 2)
         pinned += flow(f"M318 {CORE[1]} L{STAGE_X - 30} {CORE[1]} L{STAGE_X + 50} 60", CYAN, 0.9, 1.4, 2)
-        world += file_block(110, 120, 2.6, "rewrite") + text(175, 230, "2,000 lines rewritten", 12, MUTED)
-        world += hidden_until(text(175, 230, "", 1), 2.6)
-        pinned += alert(STAGE_X + 245, 120, 3.2)
+        # the tool call: cut off mid-string (red), then closed by the repair (lime)
+        cx, cy = 210, 150
+        chip = (
+            f'<rect x="-128" y="-16" width="256" height="32" rx="5" fill="{BOX}" stroke="{RED}" stroke-width="1.5">'
+            f'<animate attributeName="stroke" to="{LIME}" dur="0.2s" begin="2.2s" fill="freeze"/></rect>'
+            + text(-116, 5, '{"content": "export cons', 13, RED, "start", extra=' xml:space="preserve"')
+        )
+        world += pop(chip, cx, cy, 1.0)
+        world += pop(text(0, 5, '"}', 13, ORANGE, "start"), cx + 94, cy, 2.0)
+        world += hidden_until(text(cx, cy + 38, "string closed", 12, LIME), 2.2)
+        # the write lands: only the first half of the file exists
+        fx, fy = 390, 90
+        world += draw_line(cx + 132, cy, fx - 6, cy, 2.4, WIRE, 2)
+        world += flow(f"M{cx + 132} {cy} L{fx - 8} {cy}", CYAN, 0.8, 2.6, 2, size=8)
+        fbox = f'<rect x="{fx}" y="{fy}" width="130" height="120" rx="6" fill="{BOX}" stroke="{WIRE}" stroke-width="1.5"/>'
+        fbox += text(fx + 65, fy - 10, "a.ts", 12, MUTED)
+        world += hidden_until(fbox, 2.6)
+        for k in range(8):
+            ly = fy + 12 + k * 13
+            w = [90, 70, 100, 60, 96, 80, 50, 84][k]
+            if k < 4:
+                el = f'<rect x="{fx + 12}" y="{ly}" width="{w}" height="6" rx="2" fill="{LIME}"/>'
+                world += hidden_until(el, 3.0 + k * 0.15)
+            else:
+                el = (
+                    f'<rect x="{fx + 12}" y="{ly}" width="{w}" height="6" rx="2" fill="none" stroke="{DIM}" '
+                    f'stroke-width="1" stroke-dasharray="3 3"><animate attributeName="stroke" to="{RED}" '
+                    f'dur="0.2s" begin="3.8s" fill="freeze"/></rect>'
+                )
+                world += hidden_until(el, 2.6)
+        world += hidden_until(text(fx + 65, fy + 145, "1,000 of 2,000 lines", 12, RED), 3.8)
+        world += alert(fx + 130, fy, 4.0)
         persist.append((2, lambda i: ""))
         return agent_frame(i, cam, cam, world, pinned, ctx([0.25, 0.45], [0, 3]),
-                           "A repair step fixes the JSON; every edit rewrites the whole file.")
+                           "A repair step closes the cut-off JSON string; the write lands with only half the file.")
     scenes.append(s3)
 
     # 4 edit tool
@@ -445,22 +474,42 @@ def build_agent():
                            "A shell does everything; one cat floods the context.")
     scenes.append(s5)
 
-    # 6 more tools
+    # 6 read and search: line ranges and grep over the repo; nothing else in reach
     def s6():
         i, cam = 5, 0
         keys = ["read", "search", "rag", "fetch", "git", "browser"]
-        world = world_static(i) + "".join(tool(k, 0.4 + n * 0.15) for n, k in enumerate(keys))
+        world = world_static(i) + tool("read", 0.4) + tool("search", 0.55)
+        # the repo: read pulls a line range (cyan), grep lights matching lines (yellow)
+        rx, ry = 190, 128
+        repo = f'<rect x="{rx}" y="{ry}" width="130" height="100" rx="6" fill="{BOX}" stroke="{WIRE}" stroke-width="1.5"/>'
+        repo += text(rx + 65, ry + 118, "repo", 12, MUTED)
+        widths = [90, 70, 100, 60, 96, 80, 50]
+        for k, w in enumerate(widths):
+            ly = ry + 12 + k * 12
+            anim = ""
+            if k in (2, 3, 4):  # the line range read returns
+                anim += f'<animate attributeName="fill" to="{CYAN}" dur="0.2s" begin="{2.0 + (k - 2) * 0.12:.2f}s" fill="freeze"/>'
+            if k in (1, 5):  # grep hits
+                anim += f'<animate attributeName="fill" to="{YELLOW}" dur="0.2s" begin="2.9s" fill="freeze"/>'
+            repo += f'<rect x="{rx + 12}" y="{ly}" width="{w}" height="6" rx="2" fill="{DIM}">{anim}</rect>'
+        world += hidden_until(repo, 0.8)
+        world += counter(rx + 65, ry - 10, ["lines 120-180", 'grep "retry"'], 2.0, 0.9, 12, CYAN, YELLOW)
         pinned = pinned_base(i)
-        for n, k in enumerate(keys[:3]):
-            _, _, x, y = TOOLS[k]
-            pinned += flow(core_to(x, y, cam), CYAN, 1.4, 1.5 + n * 0.3, 1)
-        for n, lab in enumerate(["slack", "jira", "sentry"]):
-            g = node("circle-help", lab, 40, DIM, stroke=RED, dashed=True)
-            world += pop(g, 490 + n * 50, 250 - 12, 2.8 + n * 0.2)
-        world += alert(STAGE_X + 590, 210, 3.6)
+        pinned += flow(core_to(50, 165, cam), CYAN, 1.4, 1.2, 1)
+        pinned += flow(core_to(120, 165, cam), YELLOW, 1.4, 1.9, 1)
+        # out of reach: the ticket, the logs and the docs
+        fence = f'<path d="M{rx + 168} 84 V246" stroke="{RED}" stroke-width="2" stroke-dasharray="6 6"/>'
+        world += hidden_until(fence, 3.2)
+        for n, (ic, lab) in enumerate([("ticket", "ticket"), ("logs", "logs"), ("book-open", "docs")]):
+            g = node(ic, lab, 40, DIM, stroke=RED, dashed=True)
+            world += pop(g, 410 + n * 70, 165, 3.4 + n * 0.2)
+        # a search reaches past the repo and stops at its edge
+        world += once(f"M{rx + 120} 200 L{rx + 160} 200", YELLOW, 0.6, 4.2, size=8)
+        world += hidden_until(icon("x", rx + 168, 200, 22, RED), 4.8)
+        world += alert(550 + 20, 145, 5.2)
         persist.append((5, lambda i: "".join(tool(k) for k in keys)))
-        return agent_frame(i, cam, cam, world, pinned, ctx([0.3, 0.5], [0, 2.5]),
-                           "Read, search, RAG, fetch, git, browser; every other service wants a tool too.")
+        return agent_frame(i, cam, cam, world, pinned, ctx([0.3, 0.4], [0, 2.5]),
+                           "Read with line ranges and grep work on the repo; the ticket, the logs and the docs stay out of reach.")
     scenes.append(s6)
 
     # 7 MCP
@@ -551,26 +600,39 @@ def build_agent():
     def compact_pin():
         return pop(node("fold-vertical", "compact", 30), 120, 228)
 
-    # 12 retries, limits and resume
+    # 12 retries, fallbacks and resume: runs all week on a laptop; one fix, $1,000
     def s12():
         i, cam = 11, R[1]
         x0 = R[1]
         world = world_static(i)
+        # the provider fails again; this time the run survives it
+        world += pop(node("server", "provider", 56, TEXT, red_at=1.8), x0 + 120, 140)
+        world += hidden_until(icon("x", x0 + 50, 140, 26, RED), 1.8)
+        world += pop(node("server", "backup", 44, ORANGE, stroke=ORANGE), x0 + 120, 250, 2.4)
         world += pop(node("refresh-cw", "retry", 44, ORANGE), x0 + 270, 55, 0.4)
-        world += pop(node("gauge", "limits", 44, ORANGE), x0 + 270, 140, 0.6)
+        world += pop(node("arrow-right-left", "fallback", 44, ORANGE), x0 + 270, 140, 0.6)
         world += pop(node("save", "resume", 44, ORANGE), x0 + 270, 225, 0.8)
-        bill = f'<rect x="-80" y="-34" width="160" height="68" rx="10" fill="{BOX}" stroke="{WIRE}" stroke-width="2"><animate attributeName="stroke" to="{RED}" begin="5.2s" dur="0.2s" fill="freeze"/></rect>'
-        world += pop(bill, x0 + 470, 140, 1.0)
-        world += counter(x0 + 470, 135, ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], 1.4, 0.55, 13, MUTED)
-        world += counter(x0 + 470, 160, ["$12", "$80", "$190", "$340", "$560", "$790", "$1,000"], 1.4, 0.55, 20, TEXT, RED)
+        # retry flashes on the failure, fallback when the backup takes over
+        for (y, b) in [(55, 1.9), (140, 2.5), (225, 3.1)]:
+            world += hidden_until(
+                f'<rect x="{x0 + 246}" y="{y - 24}" width="48" height="48" rx="9" fill="none" stroke="{ORANGE}" stroke-width="2">'
+                f'<animate attributeName="opacity" values="1;0" dur="0.8s" begin="{b}s" fill="freeze"/></rect>', b)
+        # all week on your laptop
+        world += pop(node("laptop", "your laptop", 44, TEXT), x0 + 470, 48, 1.0)
+        bill = f'<rect x="-80" y="-34" width="160" height="68" rx="10" fill="{BOX}" stroke="{WIRE}" stroke-width="2"><animate attributeName="stroke" to="{RED}" begin="5.6s" dur="0.2s" fill="freeze"/></rect>'
+        world += pop(bill, x0 + 470, 160, 1.2)
+        world += counter(x0 + 470, 155, ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], 2.8, 0.45, 13, MUTED)
+        world += counter(x0 + 470, 180, ["$12", "$80", "$190", "$340", "$560", "$790", "$1,000"], 2.8, 0.45, 20, TEXT, RED)
+        world += hidden_until(text(x0 + 470, 218, "one bug fix", 13, RED), 5.6)
         pinned = pinned_base(i) + compact_pin()
-        pinned += flow(core_to(x0 + 120, 140, cam), CYAN, 1.0, 1.0, 3)
-        pinned += alert(screen(x0 + 550, 106, cam)[0], 106, 5.3)
+        pinned += flow(core_to(x0 + 120, 140, cam), CYAN, 1.0, 0.8, 3, stop=1.8)
+        pinned += flow(core_to(x0 + 120, 250, cam), CYAN, 1.0, 2.6, 3)
+        pinned += alert(screen(x0 + 550, 126, cam)[0], 126, 5.7)
         persist.append((11, lambda i: pop(node("refresh-cw", "retry", 44), x0 + 270, 55)
                         + pop(node("gauge", "limits", 44), x0 + 270, 140)
                         + pop(node("save", "resume", 44), x0 + 270, 225)))
         return agent_frame(i, cam, cam, world, pinned, ctx([0.3, 0.75, 0.3], [0, 1.5, 3], repeat=True),
-                           "Retries, limits and resume keep it running all week; the bill arrives.")
+                           "Retries, a fallback provider and resume keep it running all week on a laptop; one bug fix costs $1,000.")
     scenes.append(s12)
 
     MODELS = [("DeepSeek", 60), ("Qwen", 140), ("Llama", 220)]
@@ -683,24 +745,37 @@ def build_agent():
                 out += el
         return out
 
-    # 17 sub-agents
+    # 17 sub-agents: a dozen in the background; one force-pushes to main
     def s17():
         i, cam = 16, R[3]
         x0 = R[3]
-        world = world_static(i) + swarm(0.8)
-        world += pop(node("hourglass", None, 32, YELLOW, stroke=YELLOW), x0 + 60, 235)
-        world += bar(x0 + 100, 228, 460, 14, [0.2, 0.2, 1.0], [0, 1.4, 2.6], [ORANGE, ORANGE, LIME]) + text(x0 + 330, 266, "400 sub-agents, in the background", 12)
-        pinned = pinned_base(i, red_at=3.6)
-        pinned += flow(f"M{USER[0] + 26} {USER[1]} L{CORE[0] - 36} {CORE[1]}", CYAN, 1.0, 1.0, 2)
-        teams = [(CORE[0] - 80, 40, ORANGE), (CORE[0], 28, CYAN), (CORE[0] + 80, 40, YELLOW)]
-        for n, (x, y, c) in enumerate(teams):
-            pinned += pop(node("users", None, 32, c, stroke=c), x, y, 3.0 + n * 0.15)
-            pinned += draw_line(x, y + 16, CORE[0], CORE[1] - 36, 3.1 + n * 0.15, c, 2)
-        pinned = shake(pinned, 3.6, 3)
-        pinned += alert(CORE[0] + 36, CORE[1] - 36, 3.8)
+        world = world_static(i)
+        world += hidden_until(text(x0 + 365, 22, "12 sub-agents, in the background", 12), 0.8)
+        rogue = (3, 2)
+        for r in range(3):
+            for c in range(4):
+                x, y = x0 + 260 + c * 70, 60 + r * 62
+                b = 0.8 + (r * 4 + c) * 0.08
+                bad = (c, r) == rogue
+                world += pop(node("bot", None, 36, ORANGE, red_at=3.4 if bad else None), x, y, b)
+                # each one busy on its own task
+                prog = bar(x - 16, y + 24, 32, 4, [0, 1, 0], [0, 1.6, 1.6], dur=1.6 + (r + c) % 3 * 0.4,
+                           repeat=True, rx=2)
+                world += hidden_until(prog, b + 0.4)
+        # main, and the push nobody sees
+        mx, my = x0 + 560, 245
+        world += pop(node("git-branch", "main", 44, TEXT, red_at=4.3), mx, my, 1.4)
+        rx, ry = x0 + 260 + rogue[0] * 70, 60 + rogue[1] * 62
+        world += once(f"M{rx + 18} {ry} L{mx} {ry} L{mx} {my - 26}", RED, 0.8, 3.5)
+        world += hidden_until(text(mx - 34, my + 5, "push --force", 12, RED, "end"), 4.3)
+        world += alert(mx + 22, my - 22, 4.5)
+        pinned = pinned_base(i)
+        # you keep talking to the agent the whole time
+        pinned += flow(f"M{USER[0] + 26} {USER[1]} L{CORE[0] - 36} {CORE[1]}", CYAN, 1.0, 0.4, 2)
+        pinned += flow(f"M{CORE[0] - 36} {CORE[1] + 14} L{USER[0] + 26} {CORE[1] + 14}", LIME, 1.0, 0.9, 2, size=7)
         persist.append((16, lambda i: swarm(done=True)))
         return agent_frame(i, cam, cam, world, pinned, ctx([0.3, 0.3], [0, 1]),
-                           "400 sub-agents run in the background while you keep talking; every team pulls a different way.")
+                           "A dozen sub-agents work in the background while you keep talking; one force-pushes to main unwatched.")
     scenes.append(s17)
 
     # 18 hooks, permissions, AGENTS.md, skills
