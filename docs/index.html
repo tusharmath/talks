@@ -83,13 +83,13 @@
         // overrides it. The choice is remembered in localStorage.
         theme: "dark",
         // Animation when moving to another slide:
-        //   "fade"   quick fade in with a slight upward drift (default)
-        //   "slide"  quick fade in from the side, in the direction of travel
+        //   "slide"  the new slide slides in from the right (from the left going back) (default)
+        //   "fade"   quick fade in with a slight upward drift
         //   "none"   instant cut
         // `--` build steps never re-animate the slide; only the newly revealed
         // part fades in. Off for prefers-reduced-motion and in print.
         // Override per visit with ?transition=fade|slide|none in the URL.
-        transition: "fade",
+        transition: "slide",
       };
       var THEME_KEY_BINDING = "d"; // remark already uses b c f h j k m p t ?
       if (!storedTheme() && !new URLSearchParams(location.search).get("theme")) {

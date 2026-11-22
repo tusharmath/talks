@@ -956,7 +956,7 @@ body[data-transition="fade"] .remark-slide-container.slide-enter {
   animation: slide-enter-fade 260ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
 }
 body[data-transition="slide"] .remark-slide-container.slide-enter {
-  animation: slide-enter-side 280ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  animation: slide-enter-side 340ms cubic-bezier(0.22, 0.8, 0.3, 1) backwards;
 }
 body[data-transition="slide"] .remark-slide-container.slide-enter.slide-enter-back {
   animation-name: slide-enter-side-back;
@@ -969,12 +969,15 @@ body:not([data-transition="none"]) .reveal-enter {
   to { opacity: 1; transform: none; }
 }
 @keyframes slide-enter-side {
-  from { opacity: 0; transform: translateX(28px); }
-  to { opacity: 1; transform: none; }
+  from { transform: translateX(100%); }
+  to { transform: none; }
 }
 @keyframes slide-enter-side-back {
-  from { opacity: 0; transform: translateX(-28px); }
-  to { opacity: 1; transform: none; }
+  from { transform: translateX(-100%); }
+  to { transform: none; }
+}
+body[data-transition="slide"] .remark-slides-area {
+  overflow: hidden;
 }
 @keyframes reveal-enter {
   from { opacity: 0; }
