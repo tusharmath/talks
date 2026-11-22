@@ -18,7 +18,7 @@ So you want to build a software .tc-underline[factory]?
 
 class: diagram, story
 
-## .icon[arrow-right] You call an LLM
+## .icon[arrow-right] So you call an LLM
 
 ![a prompt going into an LLM and code coming out as text, with nowhere to put it](./img/story/a01.svg)
 
@@ -38,6 +38,8 @@ class: diagram, story
 
 ![prompt → LLM → tool call → result → LLM, looping](./img/story/a02.svg)
 
+<!-- Whole file as one JSON string -->
+
 .text-center[
 
 ### .icon[circle-alert] Sends broken JSON
@@ -46,15 +48,15 @@ class: diagram, story
 
 ---
 
-class: diagram, story
+class: middle, story
 
 ## .icon[arrow-right] So you repair the JSON
 
-![malformed JSON and a wrong schema go into a repair step and come out valid](./img/story/a03.svg)
+<!-- Writes land now -->
 
 .text-center[
 
-### .icon[circle-alert] Rewrites the whole file to change one line
+### .icon[circle-alert] The repair closes a cut-off string and saves half the file
 
 ]
 
@@ -62,13 +64,15 @@ class: diagram, story
 
 class: diagram, story
 
-## .icon[arrow-right] So you give the agent an edit tool
+## .icon[arrow-right] So you give the LLM an edit tool
 
 ![a 2,000 line rewrite shrinking to a one line find-and-replace diff](./img/story/a04.svg)
 
+<!-- Search and replace -->
+
 .text-center[
 
-### .icon[circle-alert] Cannot run the code
+### .icon[circle-alert] Breaks the build and never finds out
 
 ]
 
@@ -76,29 +80,29 @@ class: diagram, story
 
 class: diagram, story
 
-## .icon[arrow-right] So you give the agent a shell
+## .icon[arrow-right] So you give the LLM a shell
 
 ![the agent doing everything through one terminal: cat, grep, curl, git](./img/story/a05.svg)
 
+<!-- Runs, reads the error, tries again: the agent loop -->
+
 .text-center[
 
-### .icon[circle-alert] Cats a 10,000 line file
+### .icon[circle-alert] `cat`s a 10,000-line file
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you add more tools
+## .icon[arrow-right] So you add read and search tools
 
-![a tool list growing: read, search, RAG over the codebase, fetch, git, browser, crowding the prompt](./img/story/a06.svg)
-
-<!-- Read, search, RAG, fetch, git, browser -->
+<!-- Line ranges, grep -->
 
 .text-center[
 
-### .icon[circle-alert] Every service wants a dedicated tool
+### .icon[circle-alert] It can read the repo, but not the ticket, the logs or the docs
 
 ]
 
@@ -110,11 +114,11 @@ class: diagram, story
 
 ![GitHub, Slack, Jira, Postgres, Sentry plugging in over MCP, each dumping a pile of tools into the prompt](./img/story/a07.svg)
 
-<!-- Another 100 tools -->
+<!-- Jira, Sentry, docs: another 100 tools -->
 
 .text-center[
 
-### .icon[circle-alert] Their schemas eat the context
+### .icon[circle-alert] Tool schemas eat the context
 
 ]
 
@@ -126,6 +130,8 @@ class: diagram, story
 
 ![a registry where only the tools for this task are loaded into the prompt](./img/story/a08.svg)
 
+<!-- Only the tools the request needs -->
+
 .text-center[
 
 ### .icon[circle-alert] Does not know which tools exist
@@ -136,15 +142,15 @@ class: diagram, story
 
 class: diagram, story
 
-## .icon[arrow-right] So you add a tool to search tools
+## .icon[arrow-right] So you add tool search
 
 ![the agent queries the registry and gets back the few tools that match](./img/story/a09.svg)
 
-<!-- Can call any tool -->
+<!-- Finds the right one among hundreds -->
 
 .text-center[
 
-### .icon[circle-alert] One tool returns 50,000 lines and fills the context
+### .icon[circle-alert] An untried tool dumps 50,000 lines into the context
 
 ]
 
@@ -156,6 +162,7 @@ class: diagram, story
 
 ![a wall of text cut off before it reaches the model, then many turns stacking up until the window is full again](./img/story/a10.svg)
 
+<!-- The rest goes to a file it can page through -->
 <!-- Runs for an hour -->
 
 .text-center[
@@ -168,31 +175,30 @@ class: diagram, story
 
 class: diagram, story
 
-## .icon[arrow-right] So you compact
+## .icon[arrow-right] So you compact the context
 
 ![older turns squeezed into a summary, the run continuing for hours](./img/story/a11.svg)
 
+<!-- Summarize old turns, keep the plan -->
 <!-- Runs for hours -->
 
 .text-center[
 
-### .icon[circle-alert] The provider fails on a normal Tuesday
+### .icon[circle-alert] Hours in, the provider fails on a normal Tuesday
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you add retries, limits and resume
+## .icon[arrow-right] So you add retries, fallbacks and resume
 
-![request fails, backs off, tries again](./img/story/a12.svg)
-
-<!-- Runs all week -->
+<!-- Runs all week on your laptop -->
 
 .text-center[
 
-### .icon[circle-alert] A $1,000 bill arrives
+### .icon[circle-alert] One bug fix costs $1,000
 
 ]
 
@@ -204,11 +210,11 @@ class: diagram, story
 
 ![the same conversation routed to DeepSeek, Qwen and a self-hosted Llama, the cost meter dropping](./img/story/a13.svg)
 
-<!-- Call the wrong tool -->
+<!-- A fraction of the cost -->
 
 .text-center[
 
-### .icon[circle-alert] With made-up arguments
+### .icon[circle-alert] Sometimes calls the wrong tool with made-up arguments
 
 ]
 
@@ -220,8 +226,8 @@ class: diagram, story
 
 ![a scoreboard built from real tasks in your own repos, one row per model, columns for right tool, right arguments, tests pass](./img/story/a14.svg)
 
-<!-- Real tasks from your own repos -->
-<!-- Scored on right tool, right arguments, tests pass -->
+<!-- Real tasks from your repos -->
+<!-- Right tool, right arguments, tests pass -->
 
 .text-center[
 
@@ -237,11 +243,11 @@ class: diagram, story
 
 ![one agent core with a per-model layer of prompts and tool descriptions](./img/story/a15.svg)
 
-<!-- Prompts and tool descriptions per model -->
+<!-- Per-model prompts on a shared harness -->
 
 .text-center[
 
-### .icon[circle-alert] A fix for one model breaks another
+### .icon[circle-alert] A fix to the shared harness breaks another model
 
 ]
 
@@ -257,24 +263,22 @@ class: diagram, story
 
 .text-center[
 
-### .icon[circle-alert] Passes the evals, still takes all day on a big task
+### .icon[circle-alert] Evals pass, but big tasks take hours, one step at a time
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
 ## .icon[arrow-right] So you add sub-agents
 
-![one long queue of steps split into pieces handed to hundreds of agents in a background lane while the main agent keeps chatting with you](./img/story/a17.svg)
-
-<!-- Spawn 400 in the background -->
+<!-- A dozen in the background -->
 <!-- You keep talking while they work -->
 
 .text-center[
 
-### .icon[circle-alert] Every team wants the agent to work their way
+### .icon[circle-alert] A background sub-agent force-pushes to main while nobody is watching
 
 ]
 
@@ -286,115 +290,59 @@ class: diagram, story
 
 ![four extension points around the agent core: hooks firing around tool calls, a permission gate, an AGENTS.md of project rules, a shelf of skills](./img/story/a18.svg)
 
-<!-- Rules set per team -->
+<!-- Block what must never run -->
+<!-- Each repo carries its own rules -->
+<!-- Skills written by hand -->
 
 ---
 
 class: middle, shatter, celebrate
 
-# 🎉 Congratulations
+# .icon[party-popper] Congratulations
 
 --
 
 ### You have built an .tc-underline[agent]
 
-### .icon[circle-alert] Now build a Software Factory
+### .icon[circle-alert] Works only for whoever is driving it
 
 ---
 
-class: middle
+class: middle, story
 
-# Make it .tc-underline[autonomous]
+## .icon[arrow-right] So you roll it out to every team
 
----
-
-class: diagram, story
-
-## .icon[arrow-right] So you schedule agents
-
-![schedules waking the agent on your laptop: a nightly dependency bump, a weekly cleanup](./img/story/f01.svg)
-
-<!-- You close the laptop -->
+<!-- Ship with quality, consistently -->
 
 .text-center[
 
-### .icon[circle-alert] The nightly run never happens
+### .icon[circle-alert] Every agent knows the code; none of them know the product
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you run the agent in the cloud
+## .icon[arrow-right] So you add a shared knowledge base
 
-![the agent moving from the laptop to a machine in the cloud, the nightly run firing on time with the lid closed](./img/story/f02.svg)
-
-<!-- Always on -->
+<!-- Specs, decisions, past incidents -->
+<!-- Agents keep it in sync -->
 
 .text-center[
 
-### .icon[circle-alert] You can only reach the agent over SSH
+### .icon[circle-alert] Now agents act on everything: every request, even a question, becomes a PR
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you move the control plane out
-
-![the UI, sessions and steering pulled out of the agent process into a control plane with an API](./img/story/f03.svg)
-
-<!-- Any screen can drive the agent, even your phone -->
-
-.text-center[
-
-### .icon[circle-alert] Only responds when someone types
-
-]
-
----
-
-class: diagram, story
-
-## .icon[arrow-right] So you add more triggers
-
-![Slack messages, support tickets, prod alerts and failed deploys wired straight to the cloud agent](./img/story/f04.svg)
-
-<!-- Slack, support tickets, prod alerts, failed deploys -->
-
-.text-center[
-
-### .icon[circle-alert] 100 untested PRs opened overnight
-
-]
-
----
-
-class: diagram, story
-
-## .icon[arrow-right] So you set up verification agents
-
-![a second set of agents picking up each PR: running the tests, recording a screen capture, attaching logs and a report as artifacts](./img/story/f05.svg)
-
-<!-- Runs tests and generates artifacts -->
-
-.text-center[
-
-### .icon[circle-alert] Not everything needs a PR
-
-]
-
----
-
-class: diagram, story
-
-## .icon[arrow-right] So you add a project board
-
-![events landing on a board as cards, flowing through columns Triage → Spec → Dev → QA → Review](./img/story/f06.svg)
+## .icon[arrow-right] So you integrate a project board
 
 <!-- Triage → Spec → Dev → QA → Review -->
+<!-- Not everything needs a PR -->
 
 .text-center[
 
@@ -404,141 +352,257 @@ class: diagram, story
 
 ---
 
-class: diagram, story
+class: middle, story
 
 ## .icon[arrow-right] So you set up an agent to run the board
 
-![an agent watching the project board and moving cards on its own: a finished spec starts dev, green QA opens review, a failure sends the card back](./img/story/f07.svg)
-
-<!-- Every task moves itself -->
-<!-- The agent crashes mid-run -->
+<!-- Every card moves itself -->
+<!-- Verification agents run QA and attach artifacts -->
 
 .text-center[
 
-### .icon[circle-alert] The task is lost
+### .icon[circle-alert] A card ships and nobody knows who signed off on it
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you make every step durable
+## .icon[arrow-right] So you give every card an owner
 
-![each step of each agent checkpointed as it finishes, the hand-offs between agents recorded](./img/story/f08.svg)
-
-<!-- Tasks resume where they stopped -->
-<!-- The cloud machine is replaced -->
+<!-- Whoever filed it, or the team that owns the code -->
+<!-- Risky changes need their sign-off -->
 
 .text-center[
 
-### .icon[circle-alert] Schedules and triggers die with the machine
+### .icon[circle-alert] Owners reject the same mistake every week
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you move the management plane out
+## .icon[arrow-right] So you write rubrics
 
-![three layers: control plane (UI, sessions, steering), management plane (triggers, schedules, lifecycle, a secrets vault) running as its own service, and cloud machines below as sandboxes receiving short-lived tokens per task; the agent still runs inside each sandbox, so when one dies the agent dies with it](./img/story/f09.svg)
-
-<!-- Secrets move to a vault -->
-<!-- Sandboxes get short-lived tokens -->
+<!-- What owners check, written down -->
+<!-- Agents grade every task, humans take the exceptions -->
 
 .text-center[
 
-### .icon[circle-alert] The agent loop still runs inside the sandbox
+### .icon[circle-alert] Rubrics catch the same failure every week; nothing learns from it
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you move the agent loop out
+## .icon[arrow-right] So you turn failures into skills
 
-![the agent loop (model calls, context, decisions) runs as a service next to the management plane; sandboxes below are thin disposable workers that only execute tool calls (shell, edit, tests) and stream results back; one sandbox is thrown away and replaced while the agent keeps its place; then everyone is walled into their own machines](./img/story/f09b.svg)
-
-<!-- Sandboxes only run the work -->
-<!-- Spun up per task, thrown away after -->
-<!-- Everyone has their own machines -->
+<!-- Agents write a skill from each repeated fix -->
+<!-- The next agent loads it -->
 
 .text-center[
 
-### .icon[circle-alert] All working in silos
+### .icon[circle-alert] You cannot tell if a skill helped
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you add a shared knowledge base
+## .icon[arrow-right] So you track reports
 
-![every person and agent reading from and writing to one knowledge base, agents merging duplicates and fixing stale pages](./img/story/f10.svg)
-
-<!-- Kept in sync by agents -->
+<!-- Cost, cycle time and rework per task and per skill -->
+<!-- With and without each skill -->
 
 .text-center[
 
-### .icon[circle-alert] Agents now ship faster than you can review
+### .icon[circle-alert] Someone has to read them and decide what to change
 
 ]
 
 ---
 
-class: diagram, story
+class: middle, story
 
-## .icon[arrow-right] So you set up rubrics
+## .icon[arrow-right] So you set goals
 
-![a rubric scoring every change](./img/story/f11.svg)
-
-<!-- Agents review against the rubric, humans take the exceptions -->
-
-.text-center[
-
-### .icon[circle-alert] Every adjustment reprocesses all the data
-
-]
-
----
-
-class: diagram, story
-
-## .icon[arrow-right] So you set up reports
-
-![dashboards kept up to date from history: cost per task, cycle time, rework](./img/story/f12.svg)
-
-<!-- Maintains historical data -->
-<!-- Cost per task, cycle time, rework -->
-
-.text-center[
-
-### .icon[circle-alert] The rubrics go stale
-
-]
-
----
-
-class: diagram, story
-
-## .icon[arrow-right] So you set up goals
-
-![targets pinned over the reports](./img/story/f13.svg)
-
-<!-- An agent tunes the rubrics and workflows to hit them -->
+<!-- An agent tunes rubrics, skills and workflows to hit them -->
+<!-- Rework is the one metric it cannot tune -->
 
 ---
 
 class: middle, celebrate
 
-# 🎉 Congratulations
+# .icon[party-popper] Congratulations
+
+--
+
+### You have built an .tc-underline[AI SDLC] that improves itself
+
+### .icon[circle-alert] Works only when someone files a card
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you add more triggers
+
+<!-- Schedule, Slack, support tickets, prod alerts, failed deploys -->
+
+.text-center[
+
+### .icon[circle-alert] A 3 a.m. alert ships a fix, signed off as you
+
+]
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you give agents their own identity
+
+<!-- Commits, PRs and deploys name the agent and its owner -->
+
+.text-center[
+
+### .icon[circle-alert] It has its own name, but lives on your laptop: close the lid and the 3 a.m. alert waits
+
+]
+
+---
+
+class: diagram, story
+
+## .icon[arrow-right] So you run the agent on a cloud machine
+
+![the agent moving from the laptop to a machine in the cloud, the nightly run firing on time with the lid closed](./img/story/f02.svg)
+
+<!-- Always on -->
+<!-- Agent keys live on it -->
+
+.text-center[
+
+### .icon[circle-alert] You can only reach it over SSH
+
+]
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you make the agent headless
+
+<!-- Anyone can drive it from any screen, even a phone -->
+<!-- So can any support ticket -->
+
+.text-center[
+
+### .icon[circle-alert] A ticket says 'ignore your instructions' and the agent sends out its keys
+
+]
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you move the agent loop to a control plane
+
+<!-- Keys stay with the loop, never on the sandbox -->
+<!-- The machine only runs the work, so a heavy build cannot freeze the agent -->
+<!-- Tool calls go over a message bus -->
+
+.text-center[
+
+### .icon[circle-alert] A dropped connection retries and `git push` runs twice
+
+]
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you make every call durable
+
+<!-- Each call has an ID -->
+<!-- Replays return the saved result -->
+
+.text-center[
+
+### .icon[circle-alert] The loop crashes and finished results pile up with nobody to collect them
+
+]
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you make the loop durable
+
+<!-- State saved every step -->
+<!-- If the heartbeat stops, the sandbox shuts down -->
+
+.text-center[
+
+### .icon[circle-alert] Loops now live for days, and every one queues for the same sandbox
+
+]
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you spin up a sandbox per task
+
+<!-- 400 at once -->
+<!-- Scale to zero when idle -->
+<!-- Each one clones and installs from scratch -->
+
+.text-center[
+
+### .icon[circle-alert] A typo fix gets the same 64 GB box and prod keys as a migration
+
+]
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you create sandbox groups
+
+<!-- Each sets machine size, network access and short-lived credentials -->
+<!-- Warm pools per repo skip clone and install -->
+
+.text-center[
+
+### .icon[circle-alert] Prod breaks; the commit names the agent, but not why it did it
+
+]
+
+---
+
+class: middle, story
+
+## .icon[arrow-right] So you trace every change
+
+<!-- Trigger, model, skill, rubric and approver on every commit -->
+<!-- Agents draft the post-mortem and the owner decides -->
+
+---
+
+class: middle, celebrate
+
+# .icon[party-popper] Congratulations
 
 --
 
 ### You have built a simple .tc-underline[software factory]
+
+### .icon[circle-alert] Still want to build one?
 
 ---
 
