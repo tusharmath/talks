@@ -11,7 +11,7 @@ Format: `> So you ... (additional info) _problem_`
 Agent act: rewritten from the independent review (names the agent loop at the shell step, 400 sub-agents moved to the Factory act)
 AI SDLC act: average 3.8; goals and Congratulations share a problem
 Factory act: reworked from the independent review; moving the agent loop out spans three steps (control plane with message bus, durable calls, durable loop with heartbeats)
-Control Plane, Credentials and sandbox reuse are now in the Factory act; Management Plane only through sandbox groups; Accountability not covered yet
+Control Plane, Credentials and sandbox reuse are now in the Factory act; Management Plane only through sandbox groups; Accountability runs as a thread: owner (AI SDLC), identity and trace (Factory)
 -->
 
 ## Agent
@@ -70,16 +70,7 @@ Control Plane, Credentials and sandbox reuse are now in the Factory act; Managem
 - [x] Rubrics
 - [x] Cost
 - [x] Self Improving -> Skills
-- [ ] Accountability
-
-<!-- Accountability: the problem is that nobody can answer 'who did this, and who answers for it?' once agents act on their own. The fixes, in the order a team usually discovers them:
-1. Every task has a named human owner (whoever filed it, or the team that owns the trigger)
-2. Agents get their own identity, not your token (commits, PRs and deploys say which agent, on whose behalf)
-3. An audit trail per change (trigger, agent, model, skill and rubric versions, who approved)
-4. Approval by risk (low-risk ships on agent verification, risky changes need the owner's sign-off)
-5. Agents run the post-mortem (trace the change back, propose a guardrail, the owner decides)
-Proposal: run it as a thread, one layer per act (owner, identity, trail), +3 steps. Each step is written out where it goes, as 'Thread 1/3' to '3/3'.
-Also: on the 'Now Scale the Factory' slide, swap 'Tracing Every Change' for 'Accountability at Scale' (on-call rotation, sign-off for regulated changes, owners who leave) -->
+- [x] Accountability
 - [x] Credentials
 
 ### Story
@@ -90,11 +81,9 @@ Also: on the 'Now Scale the Factory' slide, swap 'Tracing Every Change' for 'Acc
 
 > So you integrate a project board (Triage → Spec → Dev → QA → Review; Not everything needs a PR) _You have to move every card by hand_
 
-> So you set up an agent to run the board (Every card moves itself; Verification agents run QA and attach artifacts) _Agents repeat the same mistakes_
+> So you set up an agent to run the board (Every card moves itself; Verification agents run QA and attach artifacts) _A card ships and nobody knows who signed it off_
 
-<!-- Thread 1/3, owner (AI SDLC). Change this problem to _A card ships and nobody knows who signed it off_, then add:
 > So you give every card an owner (Whoever filed it, or the team that owns the trigger; Risky changes need their sign-off) _Agents repeat the same mistakes_
-Rubrics follow unchanged -->
 
 > So you set up rubrics (Agents grade every task; Humans take the exceptions) _Failures are recorded, nothing learns from them_
 
@@ -108,11 +97,9 @@ Rubrics follow unchanged -->
 
 ## Factory
 
-> So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys) _It all stops when you close the laptop_
+> So you add more triggers (Schedule, Slack, support tickets, prod alerts, failed deploys) _A 3 a.m. alert ships a fix under your name_
 
-<!-- Thread 2/3, identity (Factory). Change this problem to _A 3 a.m. alert ships a fix under your name_, then add:
 > So you give agents their own identity (Commits, PRs and deploys name the agent and its owner) _It all stops when you close the laptop_
-Cloud machine follows unchanged -->
 
 > So you run the agent on a cloud machine (Always on; Your keys live on it now) _You can only reach it over SSH_
 
@@ -126,10 +113,8 @@ Cloud machine follows unchanged -->
 
 > So you spin up a sandbox per task (400 at once; Scale to zero when idle) _A typo fix gets the same 64 GB box and prod keys as a migration_
 
-> So you create sandbox groups (Each sets machine size, network access and short-lived credentials; Warm pools per repo skip clone and install)
+> So you create sandbox groups (Each sets machine size, network access and short-lived credentials; Warm pools per repo skip clone and install) _Prod breaks, and nobody can say why_
 
-<!-- Thread 3/3, trail (Factory close). Give this step the problem _Prod breaks, and nobody can say why_ (you know which agent now, not which trigger, skill or approval), then add:
 > So you trace every change (Trigger, model, skill, rubric and approver on every commit; Agents run the post-mortem, the owner decides)
-Congratulations follows unchanged -->
 
 > Congratulations (You have built a simple software factory) _Still want to build one?_

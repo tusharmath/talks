@@ -558,7 +558,7 @@ class: diagram, spaced
 
 - .icon[lock] Security and Compliance
 - .icon[book-open] Keeping Knowledge True
-- .icon[footprints] Tracing Every Change
+- .icon[user-check] Accountability at Scale
 
 ]
 ]
@@ -600,11 +600,11 @@ class: diagram, spaced
 - Drift: 10,000 conversations a day write to the knowledge base; it goes stale faster than agents can clean it
 - Ownership: every page needs an owner and an expiry, or the factory learns from its own old mistakes
 
-6. Tracing every change
+6. Accountability at scale
 
-- Who changed what: every commit, deploy and config edit is tied to the trigger, agent, model, prompt and rubric version behind it, plus the human who approved it
-- Agents and humans side by side: the log shows which changes were made by people and which by agents, so incidents and reverts can be traced to their source
-- Replayable: from any line in production you can walk back to the task, the conversation and the decision that produced it
+- On-call: someone is paged when the factory ships a bad fix at 3 a.m.; the owner rota has to cover agent work too
+- Regulated changes: some changes legally need a named human sign-off; the workflow has to know which
+- Owners leave: every task, skill and rubric needs an owner that is handed over, or the trail points at nobody
 
 7. The factory as a product (the highlight: to scale, the factory has to be run as a product)
 
